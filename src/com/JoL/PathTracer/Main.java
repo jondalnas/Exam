@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.JoL.PathTracer.render.Screen;
+
 public class Main implements Runnable {
 	public static int WIDTH = 640, HEIGHT = 480;
 	
@@ -34,6 +36,7 @@ public class Main implements Runnable {
 		frame.setPreferredSize(frame.getSize());
 		
 		main.start();
+		main.screen.start();
 	}
 	
 	public void start() {
@@ -42,7 +45,7 @@ public class Main implements Runnable {
 	
 	public void run() {
 		while(true) {
-			screen.render();
+			//screen.render();
 		}
 	}
 }

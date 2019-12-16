@@ -16,4 +16,8 @@ public class Vector3 {
 	public Vector3 mult(Vector3 v) {
 		return new Vector3(x * v.x, y * v.y, z * v.z);
 	}
+	
+	public Vector3 mult(double k) {
+		return new Vector3(x * k, y * k, z * k);
+	}
 }
