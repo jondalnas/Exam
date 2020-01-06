@@ -20,4 +20,12 @@ public class Vector3 {
 	public Vector3 mult(double k) {
 		return new Vector3(x * k, y * k, z * k);
 	}
+	
+	public Vector3 multEqual(double k) {
+		x *= k;
+		y *= k;
+		z *= k;
+		
+		return this;
+	}
 }

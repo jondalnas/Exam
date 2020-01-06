@@ -21,6 +21,10 @@ public class Pixel {
 		this.color = new Vector3(rc / 255.0, gc / 255.0, bc / 255.0);
 	}
 	
+	public void setColor(Vector3 c) {
+		color = c;
+	}
+	
 	public void addColor(Pixel p) {
 		color = color.add(p.color);
 	}
