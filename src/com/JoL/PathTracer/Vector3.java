@@ -49,6 +49,16 @@ public class Vector3 {
 		return new Vector3(x, y, z).mult(1/mag());
 	}
 
+	public Vector3 normalize() {
+		double d = mag();
+		
+		x /= d;
+		y /= d;
+		z /= d;
+		
+		return this;
+	}
+
 	public String toString() {
 		return "(" + x + ", " + y + ", " + z + ")";
 	}

@@ -2,6 +2,7 @@ package com.JoL.PathTracer.render;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.JoL.PathTracer.Camera;
 import com.JoL.PathTracer.Matrix4x4;
@@ -53,6 +54,8 @@ public class Sample {
 	}
 	
 	public void render() {
+		int currentSampleCount = Screen.currentSample++;
+		
 		for (int y = 0; y < height; y++) {
 			//It's "0.5 -" instead of "- 0.5" because we are flipping the y-axis 
 			double yAngle = (0.5 - (double) y / height) * Math.toRadians(yFOV);
@@ -72,7 +75,7 @@ public class Sample {
 				Ray ray = new Ray(cam.pos, dir);
 				
 				//Drawing the directions
-				screen[x+y*width].setColor(scene.getColor(ray));
+				screen[x+y*width].setColor(scene.getColor(ray, new Random(x + y * width + currentSampleCount * width*height)));
 			}
 		}
 	}

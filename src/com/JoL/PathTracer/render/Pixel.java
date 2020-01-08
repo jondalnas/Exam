@@ -36,4 +36,12 @@ public class Pixel {
 	public int getIntColor() {
 		return ((int) (color.x * 255.0) << 16) | ((int) (color.y * 255.0) << 8) | (int) (color.z * 255.0);
 	}
+
+	public Pixel capOne() {
+		if (color.x > 1) color.x = 1;
+		if (color.y > 1) color.y = 1;
+		if (color.z > 1) color.z = 1;
+		
+		return this;
+	}
 }

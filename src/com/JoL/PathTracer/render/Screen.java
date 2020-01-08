@@ -12,8 +12,9 @@ public class Screen extends Canvas {
 	private BufferedImage img;
 	private int[] pixelArray;
 	private Pixel[] pixels;
-	private static int NUM_CPUS = 8;
+	private static int NUM_CPUS = Runtime.getRuntime().availableProcessors();
 	public int sampleCount = 0;
+	public static int currentSample = 0;
 	private Runnable thread;
 	
 	public Screen(int width, int height) {
@@ -29,8 +30,9 @@ public class Screen extends Canvas {
 
 					synchronized (thread) {
 						sampleCount++;
+						
 						for (int i = 0; i < pixels.length; i++) {
-							pixels[i].addColor(sample.screen[i]);
+							pixels[i].addColor(sample.screen[i].capOne());
 						}
 						
 						render();
