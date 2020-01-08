@@ -1,7 +1,11 @@
 package com.JoL.PathTracer.render;
 
 import com.JoL.PathTracer.Camera;
+import com.JoL.PathTracer.Matrix4x4;
 import com.JoL.PathTracer.Vector3;
+import com.JoL.PathTracer.colliders.Geometry;
+import com.JoL.PathTracer.colliders.Ray;
+import com.JoL.PathTracer.colliders.Sphere;
 
 public class Sample {
 	private final int width, height;
@@ -9,7 +13,7 @@ public class Sample {
 
 	public static final double FOV = 60;
 	public static double aspect, yFOV;
-	public static final Camera cam = new Camera(new Vector3(0, 0, 0), new Vector3(0, 0, 0));
+	public static final Camera cam = new Camera(new Vector3(0, 0, 0), new Vector3(1, 0, 0));
 	
 	public static double[] sin, cos;
 	
@@ -41,6 +45,8 @@ public class Sample {
 	}
 	
 	public void render() {
+		Geometry s = new Sphere(new Vector3(0, 0, 2), 1);
+		
 		for (int y = 0; y < height; y++) {
 			//It's "0.5 -" instead of "- 0.5" because we are flipping the y-axis 
 			double yAngle = (0.5 - (double) y / height) * Math.toRadians(yFOV);
@@ -55,10 +61,12 @@ public class Sample {
 				dir.multEqual(scale);
 				
 				//Rotate ray based on camera orientation
-				dir = cam.getRotation().mult(dir);
+				dir = cam.getRotation().mult(dir).normal();
+				
+				Ray ray = new Ray(cam.pos, dir);
 				
 				//Drawing the directions
-				screen[x+y*width].setColor(dir.add(new Vector3(1, 1, 1)).mult(0.5));
+				screen[x+y*width].setColor(s.collides(ray) ? 0 : 0xffffff);
 			}
 		}
 	}

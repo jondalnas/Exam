@@ -48,4 +48,8 @@ public class Vector3 {
 	public Vector3 normal() {
 		return new Vector3(x, y, z).mult(1/mag());
 	}
+
+	public String toString() {
+		return "(" + x + ", " + y + ", " + z + ")";
+	}
 }
