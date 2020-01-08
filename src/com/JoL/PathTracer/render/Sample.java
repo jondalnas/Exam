@@ -4,6 +4,7 @@ import com.JoL.PathTracer.Camera;
 import com.JoL.PathTracer.Matrix4x4;
 import com.JoL.PathTracer.Vector3;
 import com.JoL.PathTracer.colliders.Geometry;
+import com.JoL.PathTracer.colliders.Hit;
 import com.JoL.PathTracer.colliders.Ray;
 import com.JoL.PathTracer.colliders.Sphere;
 
@@ -45,7 +46,7 @@ public class Sample {
 	}
 	
 	public void render() {
-		Geometry s = new Sphere(new Vector3(0, 0, 2), 1);
+		Geometry s = new Sphere(new Vector3(0, 0, 2), 1, Material.generateMaterialWithDiffuse(new Vector3(1, 0, 1)));
 		
 		for (int y = 0; y < height; y++) {
 			//It's "0.5 -" instead of "- 0.5" because we are flipping the y-axis 
@@ -66,7 +67,8 @@ public class Sample {
 				Ray ray = new Ray(cam.pos, dir);
 				
 				//Drawing the directions
-				screen[x+y*width].setColor(s.collides(ray) ? 0 : 0xffffff);
+				Hit hit = s.collides(ray);
+				screen[x+y*width].setColor(hit != null ? hit.mat.diffuse : new Vector3(1, 1, 1));
 			}
 		}
 	}

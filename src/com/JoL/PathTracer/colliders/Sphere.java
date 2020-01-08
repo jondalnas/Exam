@@ -1,13 +1,16 @@
 package com.JoL.PathTracer.colliders;
 
 import com.JoL.PathTracer.Vector3;
+import com.JoL.PathTracer.render.Material;
 
 public class Sphere extends Geometry {
 	public double r;
+	public Material mat;
 	
-	public Sphere(Vector3 pos, double r) {
+	public Sphere(Vector3 pos, double r, Material mat) {
 		super(pos);
 		this.r = r;
+		this.mat = mat;
 	}
 
 	public Hit collides(Ray ray) {
@@ -32,7 +35,7 @@ public class Sphere extends Geometry {
 		}
 		Vector3 pos = ray.dir.mult(t0).add(ray.pos);
 		
-		return new Hit(pos, t0, pos.minus(this.pos).mult(1.0/r));
+		return new Hit(pos, t0, pos.minus(this.pos).mult(1.0/r), mat);
 	}
 
 }

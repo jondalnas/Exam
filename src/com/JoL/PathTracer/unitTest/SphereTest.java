@@ -13,7 +13,7 @@ class SphereTest {
 
 	@Test
 	public void testCollidesXZ() {
-		Geometry s = new Sphere(new Vector3(0,0,2), 1);
+		Geometry s = new Sphere(new Vector3(0,0,2), 1, null);
 		//Tests x,z plane collision to see if the rays hit the circle between 60 and 120 degrees and misses outside that span.
 		for (int deg = 0; deg < 180; deg++) {
 			Ray r = new Ray(new Vector3(0,0,0), new Vector3(Math.cos(Math.toRadians(deg)),0,Math.sin(Math.toRadians(deg))));
@@ -27,7 +27,7 @@ class SphereTest {
 	
 	@Test
 	public void testCollidesYZ() {
-		Geometry s = new Sphere(new Vector3(0, 0, 2), 1);
+		Geometry s = new Sphere(new Vector3(0, 0, 2), 1, null);
 		
 		for (int deg = 0; deg < 180; deg++) {
 			Ray r = new Ray(new Vector3(0, 0, 0), new Vector3(0, Math.cos(Math.toRadians(deg)), Math.sin(Math.toRadians(deg))));
