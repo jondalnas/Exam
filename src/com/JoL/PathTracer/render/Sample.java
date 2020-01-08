@@ -1,5 +1,6 @@
 package com.JoL.PathTracer.render;
 
+import com.JoL.PathTracer.Camera;
 import com.JoL.PathTracer.Vector3;
 
 public class Sample {
@@ -8,6 +9,7 @@ public class Sample {
 
 	public static final double FOV = 60;
 	public static double aspect, yFOV;
+	public static final Camera cam = new Camera(new Vector3(0, 0, 0), new Vector3(0, 0, 0));
 	
 	public static double[] sin, cos;
 	
@@ -51,6 +53,9 @@ public class Sample {
 				
 				//Normalize
 				dir.multEqual(scale);
+				
+				//Rotate ray based on camera orientation
+				dir = cam.getRotation().mult(dir);
 				
 				//Drawing the directions
 				screen[x+y*width].setColor(dir.add(new Vector3(1, 1, 1)).mult(0.5));
