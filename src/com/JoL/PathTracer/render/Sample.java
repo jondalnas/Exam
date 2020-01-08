@@ -1,5 +1,8 @@
 package com.JoL.PathTracer.render;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.JoL.PathTracer.Camera;
 import com.JoL.PathTracer.Matrix4x4;
 import com.JoL.PathTracer.Vector3;
@@ -17,6 +20,8 @@ public class Sample {
 	public static final Camera cam = new Camera(new Vector3(0, 0, 0), new Vector3(0, 0, 0));
 	
 	public static double[] sin, cos;
+	
+	private Scene scene;
 	
 	public Sample(int width, int height) {
 		this.width = width;
@@ -43,11 +48,11 @@ public class Sample {
 				cos[x] = Math.cos(xAngle);
 			}
 		}
+		
+		scene = new Scene();
 	}
 	
 	public void render() {
-		Geometry s = new Sphere(new Vector3(0, 0, 2), 1, Material.generateMaterialWithDiffuse(new Vector3(1, 0, 1)));
-		
 		for (int y = 0; y < height; y++) {
 			//It's "0.5 -" instead of "- 0.5" because we are flipping the y-axis 
 			double yAngle = (0.5 - (double) y / height) * Math.toRadians(yFOV);
@@ -67,8 +72,7 @@ public class Sample {
 				Ray ray = new Ray(cam.pos, dir);
 				
 				//Drawing the directions
-				Hit hit = s.collides(ray);
-				screen[x+y*width].setColor(hit != null ? hit.mat.diffuse : new Vector3(1, 1, 1));
+				screen[x+y*width].setColor(scene.getColor(ray));
 			}
 		}
 	}
