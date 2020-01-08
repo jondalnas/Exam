@@ -13,7 +13,7 @@ public class Sample {
 
 	public static final double FOV = 60;
 	public static double aspect, yFOV;
-	public static final Camera cam = new Camera(new Vector3(0, 0, 0), new Vector3(1, 0, 0));
+	public static final Camera cam = new Camera(new Vector3(0, 0, 0), new Vector3(0, 0, 0));
 	
 	public static double[] sin, cos;
 	
