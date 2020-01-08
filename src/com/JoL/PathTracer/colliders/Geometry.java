@@ -9,5 +9,5 @@ public abstract class Geometry {
 		this.pos = pos;
 	}
 
-	public abstract boolean collides(Ray ray);
+	public abstract Hit collides(Ray ray);
 }

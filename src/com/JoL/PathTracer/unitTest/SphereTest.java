@@ -19,9 +19,9 @@ class SphereTest {
 			Ray r = new Ray(new Vector3(0,0,0), new Vector3(Math.cos(Math.toRadians(deg)),0,Math.sin(Math.toRadians(deg))));
 			
 			if (deg > 60 && deg <= 120)
-				assertTrue(deg + "Works", s.collides(r));
+				assertTrue(deg + "Works", s.collides(r) != null);
 			else
-				assertFalse(deg + "Works", s.collides(r));
+				assertFalse(deg + "Works", s.collides(r) != null);
 		}
 	}
 	
@@ -33,9 +33,9 @@ class SphereTest {
 			Ray r = new Ray(new Vector3(0, 0, 0), new Vector3(0, Math.cos(Math.toRadians(deg)), Math.sin(Math.toRadians(deg))));
 			
 			if (deg > 60 && deg <= 120)
-				assertTrue(deg + " Works", s.collides(r));
+				assertTrue(deg + " Works", s.collides(r) != null);
 			else
-				assertFalse(deg + " Works", s.collides(r));
+				assertFalse(deg + " Works", s.collides(r) != null);
 		}
 	}
 
