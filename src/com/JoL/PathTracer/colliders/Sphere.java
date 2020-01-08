@@ -10,11 +10,11 @@ public class Sphere extends Geometry {
 		this.r = r;
 	}
 
-	public boolean collides(Ray ray) {
+	public Hit collides(Ray ray) {
 		Vector3 toSphere = pos.minus(ray.pos);
 		double cc = toSphere.dot(ray.dir);
 		double dist2 = toSphere.sqrtMag()- cc*cc;
-		if (dist2 > r*r) return false;
+		if (dist2 > r*r) return null;
 		
 		double tDist = Math.sqrt(r*r-dist2);
 		double t0 = cc - tDist;
@@ -28,10 +28,11 @@ public class Sphere extends Geometry {
 		
 		if (t0 < 0) {
 			t0 = t1;
-			if (t0 < 0) return false;
+			if (t0 < 0) return null;
 		}
+		Vector3 pos = ray.dir.mult(t0).add(ray.pos);
 		
-		return true;
+		return new Hit(pos, t0, pos.minus(this.pos).mult(1.0/r));
 	}
 
 }
