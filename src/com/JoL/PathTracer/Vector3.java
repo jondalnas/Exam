@@ -40,4 +40,8 @@ public class Vector3 {
 	public Vector3 normal() {
 		return new Vector3(x, y, z).mult(1/mag());
 	}
+	
+	public Vector3 cross(Vector3 v) {
+		return new Vector3(y*v.z-z*v.y, z*v.x-x*v.z, x*v.y-y*v.x);
+	}
 }
