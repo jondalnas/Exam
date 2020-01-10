@@ -8,6 +8,7 @@ import com.JoL.PathTracer.MathTools;
 import com.JoL.PathTracer.Vector3;
 import com.JoL.PathTracer.colliders.Geometry;
 import com.JoL.PathTracer.colliders.Hit;
+import com.JoL.PathTracer.colliders.Plane;
 import com.JoL.PathTracer.colliders.Ray;
 import com.JoL.PathTracer.colliders.Sphere;
 
@@ -18,6 +19,15 @@ public class Scene {
 		//Load scene
 		scene.add(new Sphere(new Vector3(0, 0, 8), 1, new Material(new Vector3(1,0,0), new Vector3(1,1,1))));//Material.generateMaterialWithEmission(new Vector3(1, 1, 1))));
 		scene.add(new Sphere(new Vector3(2, 0, 8), 1, Material.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
+		//Sides
+		scene.add(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		//Top-bottom
+		scene.add(new Plane(new Vector3(0, -3, 0), new Vector3(0, 1, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		//Front-back
+		scene.add(new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 	}
 	
 	public Vector3 getColor(Ray ray, Random rand) {
