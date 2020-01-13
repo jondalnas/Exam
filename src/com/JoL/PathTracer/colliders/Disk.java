@@ -12,6 +12,9 @@ public class Disk extends Plane {
 	
 	public Hit collides(Ray ray) {
 		Hit hit = super.collides(ray);
+		
+		if (hit == null) return null;
+		
 		Vector3 toVec = pos.minus(hit.pos);
 		double dist = toVec.dot(toVec);
 		if (dist < r*r) return hit;
