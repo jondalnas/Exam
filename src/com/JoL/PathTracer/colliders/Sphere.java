@@ -29,9 +29,9 @@ public class Sphere extends Geometry {
 			t1 = temp;
 		}
 		
-		if (t0 < 0) {
+		if (t0 < 1e-6) {
 			t0 = t1;
-			if (t0 < 0) return null;
+			if (t0 < 1e-6) return null;
 		}
 		Vector3 pos = ray.dir.mult(t0).add(ray.pos);
 		
