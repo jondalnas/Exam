@@ -7,7 +7,7 @@ public class Triangle extends Plane {
 	Vector3 v0;
 	Vector3 v1;
 	Vector3 v2;
-
+	
 	public Triangle(Vector3 pos, Vector3 normal, Vector3 v0, Vector3 v1, Vector3 v2, Material mat) {
 		super(pos, normal, mat);
 		this.v0 = v0;

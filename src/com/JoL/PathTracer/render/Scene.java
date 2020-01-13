@@ -6,6 +6,7 @@ import java.util.Random;
 
 import com.JoL.PathTracer.MathTools;
 import com.JoL.PathTracer.Vector3;
+import com.JoL.PathTracer.colliders.Disk;
 import com.JoL.PathTracer.colliders.Geometry;
 import com.JoL.PathTracer.colliders.Hit;
 import com.JoL.PathTracer.colliders.Plane;
@@ -17,14 +18,14 @@ public class Scene {
 	
 	public Scene() {
 		//Load scene
-		scene.add(new Sphere(new Vector3(0, 0, 8), 1, new Material(new Vector3(1,0,0), new Vector3(1,1,1))));//Material.generateMaterialWithEmission(new Vector3(1, 1, 1))));
-		scene.add(new Sphere(new Vector3(2, 0, 8), 1, Material.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
+		scene.add(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, Material.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(12))));
+		scene.add(new Sphere(new Vector3(2, -2, 8), 1, Material.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
 		//Sides
-		scene.add(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
-		scene.add(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), Material.generateMaterialWithDiffuse(new Vector3(0, 1, 0))));
+		scene.add(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
 		//Top-bottom
-		scene.add(new Plane(new Vector3(0, -3, 0), new Vector3(0, 1, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
-		scene.add(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(0, -3, 0), new Vector3(0, 1, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 0, 1))));
+		scene.add(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), Material.generateMaterialWithDiffuse(new Vector3(1, 0, 1))));
 		//Front-back
 		scene.add(new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		scene.add(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), Material.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
@@ -48,7 +49,7 @@ public class Scene {
 		double cosTheta = dir.dot(closest.normal);
 		double pdf = 1.0 / Math.PI;
 		
-		return closest.mat.emission.add(closest.mat.diffuse.mult(getColor(newRay, rand)).mult(cosTheta).mult(1.0/Math.PI).mult(1.0/pdf));
+		return closest.mat.emission.add(closest.mat.diffuse.mult(getColor(newRay, rand)).mult(cosTheta/Math.PI).mult(1.0/pdf));
 	}
 	
 	public Hit getClosest(Ray ray) {

@@ -32,7 +32,7 @@ public class Screen extends Canvas {
 						sampleCount++;
 						
 						for (int i = 0; i < pixels.length; i++) {
-							pixels[i].addColor(sample.screen[i].capOne());
+							pixels[i].addColor(sample.screen[i]);
 						}
 						
 						render();
