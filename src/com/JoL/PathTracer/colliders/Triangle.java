@@ -17,6 +17,9 @@ public class Triangle extends Plane {
 
 	public Hit collides(Ray ray) {
 		Hit hit = super.collides(ray);
+		
+		if (hit == null) return null;
+		
 		Vector3 edge0 = v1.minus(v0);
 		Vector3 edge1 = v2.minus(v1);
 		Vector3 edge2 = v0.minus(v2);
