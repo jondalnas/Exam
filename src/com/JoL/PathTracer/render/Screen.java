@@ -5,6 +5,11 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Savepoint;
+
+import javax.imageio.ImageIO;
 
 import com.JoL.PathTracer.Vector3;
 
@@ -16,6 +21,8 @@ public class Screen extends Canvas {
 	public int sampleCount = 0;
 	public static int currentSample = 0;
 	private Runnable thread;
+	
+	private static final short IMAGE_INTERVAL = 100;
 	
 	public Screen(int width, int height) {
 		setSize(width, height);
@@ -29,13 +36,13 @@ public class Screen extends Canvas {
 					sample.render();
 
 					synchronized (thread) {
-						sampleCount++;
+						int sc = sampleCount++;
 						
 						for (int i = 0; i < pixels.length; i++) {
 							pixels[i].addColor(sample.screen[i]);
 						}
 						
-						render();
+						render(sc);
 					}
 				}
 			}
@@ -51,7 +58,7 @@ public class Screen extends Canvas {
 		}
 	}
 	
-	public void render() {
+	public void render(int sampleCount) {
 		BufferStrategy bs = getBufferStrategy();
 		
 		if (bs == null) {
@@ -66,6 +73,17 @@ public class Screen extends Canvas {
 		}
 		
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
+		
+		//TODO: Save images at specific intervals
+		if (sampleCount % IMAGE_INTERVAL == 0) {
+			try {
+				ImageIO.write(img, "png", new File("res/out/Image @" + sampleCount + " sample count.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			System.out.println("Rendered " + sampleCount + " frames");
+		}
 		
 		g.dispose();
 		bs.show();
