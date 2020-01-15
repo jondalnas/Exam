@@ -1,7 +1,7 @@
 package com.JoL.PathTracer.colliders;
 
 import com.JoL.PathTracer.Vector3;
-import com.JoL.PathTracer.render.Material;
+import com.JoL.PathTracer.render.materials.Material;
 
 public class Sphere extends Geometry {
 	public double r;
