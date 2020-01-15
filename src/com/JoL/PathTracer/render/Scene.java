@@ -13,6 +13,7 @@ import com.JoL.PathTracer.colliders.Plane;
 import com.JoL.PathTracer.colliders.Ray;
 import com.JoL.PathTracer.colliders.Sphere;
 import com.JoL.PathTracer.render.materials.DiffuseMaterial;
+import com.JoL.PathTracer.render.materials.RefractiveMaterial;
 
 public class Scene {
 	private List<Geometry> scene = new ArrayList<Geometry>();
@@ -21,6 +22,7 @@ public class Scene {
 		//Load scene
 		scene.add(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(6))));
 		scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
 		//Sides
 		scene.add(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0, 1, 0))));
 		scene.add(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
@@ -46,13 +48,34 @@ public class Scene {
 		Vector3 newDir = MathTools.generateHemisphereVector(closest.normal, rand);
 		Ray newRay = new Ray(closest.pos, newDir);
 		newRay.ittration = ray.ittration;
+		newRay.refractiveIndex = ray.refractiveIndex;
 		
 		double cosTheta = newDir.dot(closest.normal);
 		double pdf = 1.0 / (2.0 * Math.PI);
 		
-		//L_e + (L_i * f_r * (w_i . n)) / pdf
-		//f_r = diffues / PI
-		return closest.mat.emission.add(getColor(newRay, rand).mult(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal)).mult(cosTheta).mult(1.0/pdf));
+		if (!(closest.mat instanceof RefractiveMaterial)) {
+			//L_e + (L_i * f_r * (w_i . n)) / pdf
+			//f_r = diffues / PI
+			return closest.mat.emission.add(getColor(newRay, rand).mult(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal)).mult(cosTheta).mult(1.0/pdf));
+		} else {
+			Vector3 refractiveDir = ((RefractiveMaterial) closest.mat).refract(ray.dir, closest.normal, ray.refractiveIndex);
+			
+			Vector3 reflectColor = closest.mat.emission.add(getColor(newRay, rand).mult(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal)).mult(cosTheta).mult(1.0/pdf));
+			
+			if (refractiveDir != null) {
+				Ray refractRay = new Ray(closest.pos, refractiveDir);
+				refractRay.ittration = ray.ittration;
+				refractRay.refractiveIndex = ((RefractiveMaterial) closest.mat).indexOfRefraction;
+				
+				Vector3 refractColor = getColor(refractRay, rand);
+				
+				double fr = MathTools.fresnel(ray.dir, closest.normal, ray.refractiveIndex, ((RefractiveMaterial) closest.mat).indexOfRefraction);
+				
+				return reflectColor.mult(fr).add(refractColor.mult(1 - fr));
+			}
+			
+			return reflectColor;
+		}
 	}
 	
 	public Hit getClosest(Ray ray) {

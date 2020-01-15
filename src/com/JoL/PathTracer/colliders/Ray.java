@@ -8,6 +8,8 @@ public class Ray {
 	
 	public byte ittration = 0;
 	
+	public double refractiveIndex = 1;
+	
 	public Ray(Vector3 pos, Vector3 dir) {
 		this.pos = pos;
 		this.dir = dir;

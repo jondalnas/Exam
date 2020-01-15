@@ -22,4 +22,27 @@ public class MathTools {
 		
 		return normal.mult(z).add(tangent.mult(x)).add(bitangent.mult(y));
 	}
+	
+	public static double fresnel(Vector3 in, Vector3 normal, double refractiveIndexOfRay, double refractiveIndexOfObject) {
+		double theta = in.dot(normal);
+		
+		if (theta > 0) {
+			double ri = refractiveIndexOfRay;
+			refractiveIndexOfRay = refractiveIndexOfObject;
+			refractiveIndexOfObject = ri;
+		}
+		
+		double sinTargetSqrt = (refractiveIndexOfRay * refractiveIndexOfRay) / (refractiveIndexOfObject * refractiveIndexOfObject) * (1 - theta * theta);
+
+        if (sinTargetSqrt >= 1) {
+            return 1;
+        } else {
+            double cosTarget = Math.sqrt(1 - sinTargetSqrt);
+            theta = Math.abs(theta);
+            double rs = ((refractiveIndexOfObject * theta) - (refractiveIndexOfRay * cosTarget)) / ((refractiveIndexOfObject * theta) + (refractiveIndexOfRay * cosTarget));
+            double rp = ((refractiveIndexOfRay * theta) - (refractiveIndexOfObject * cosTarget)) / ((refractiveIndexOfRay * theta) + (refractiveIndexOfObject * cosTarget));
+
+            return (rs * rs + rp * rp) / 2;
+        }
+	}
 }
