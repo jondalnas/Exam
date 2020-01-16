@@ -22,6 +22,8 @@ public class Screen extends Canvas {
 	public static int currentSample = 0;
 	private Runnable thread;
 	
+	private static int loadImageIndex = -1;
+	
 	private static final short IMAGE_INTERVAL = 100;
 	
 	public Screen(int width, int height) {
@@ -56,6 +58,8 @@ public class Screen extends Canvas {
 		for (int i = 0; i < pixels.length; i++) {
 			pixels[i] = new Pixel(0);
 		}
+		
+		loadImage();
 	}
 	
 	public void render(int sampleCount) {
@@ -87,6 +91,27 @@ public class Screen extends Canvas {
 		
 		g.dispose();
 		bs.show();
+	}
+	
+	public void loadImage() {
+		if (loadImageIndex == -1) return;
+		
+		BufferedImage img;
+		try {
+			img = ImageIO.read(new File("res/out/Image @" + loadImageIndex + " sample count.png"));
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		
+		for (int y = 0; y < img.getHeight(); y++) {
+			for (int x = 0; x < img.getWidth(); x++) {
+				pixels[x + y * img.getWidth()].setColor(img.getRGB(x, y));
+				
+				pixels[x + y * img.getWidth()] = pixels[x + y * img.getWidth()].scaleColor(loadImageIndex);
+			}
+		}
+		
+		sampleCount = loadImageIndex;
 	}
 	
 	public void start() {

@@ -1,5 +1,8 @@
 package com.JoL.PathTracer.colliders;
 
+import java.util.List;
+import java.util.Stack;
+
 import com.JoL.PathTracer.Vector3;
 
 public class Ray {
@@ -8,10 +11,16 @@ public class Ray {
 	
 	public byte ittration = 0;
 	
-	public double refractiveIndex = 1;
+	public Stack<Double> refractiveIndex = new Stack<Double>();
 	
 	public Ray(Vector3 pos, Vector3 dir) {
 		this.pos = pos;
 		this.dir = dir;
+	}
+	
+	public double getRefractiveIndex() {
+		if (refractiveIndex.empty()) return 1;
+		
+		return refractiveIndex.pop();
 	}
 }
