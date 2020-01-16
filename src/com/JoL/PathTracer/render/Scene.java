@@ -58,18 +58,20 @@ public class Scene {
 			//f_r = diffues / PI
 			return closest.mat.emission.add(getColor(newRay, rand).mult(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal)).mult(cosTheta).mult(1.0/pdf));
 		} else {
-			Vector3 refractiveDir = ((RefractiveMaterial) closest.mat).refract(ray.dir, closest.normal, ray.refractiveIndex);
+			double refractiveIndexOfRay = ray.getRefractiveIndex();
+			
+			Vector3 refractiveDir = ((RefractiveMaterial) closest.mat).refract(ray.dir, closest.normal, refractiveIndexOfRay);
 			
 			Vector3 reflectColor = closest.mat.emission.add(getColor(newRay, rand).mult(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal)).mult(cosTheta).mult(1.0/pdf));
 			
 			if (refractiveDir != null) {
 				Ray refractRay = new Ray(closest.pos, refractiveDir);
 				refractRay.ittration = ray.ittration;
-				refractRay.refractiveIndex = ((RefractiveMaterial) closest.mat).indexOfRefraction;
+				refractRay.refractiveIndex.push(((RefractiveMaterial) closest.mat).indexOfRefraction);
 				
 				Vector3 refractColor = getColor(refractRay, rand);
 				
-				double fr = MathTools.fresnel(ray.dir, closest.normal, ray.refractiveIndex, ((RefractiveMaterial) closest.mat).indexOfRefraction);
+				double fr = MathTools.fresnel(ray.dir, closest.normal, refractiveIndexOfRay, ((RefractiveMaterial) closest.mat).indexOfRefraction);
 				
 				return reflectColor.mult(fr).add(refractColor.mult(1 - fr));
 			}
