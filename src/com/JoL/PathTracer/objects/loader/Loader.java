@@ -35,7 +35,7 @@ public class Loader {
 			case 'v':
 				line = line.substring(2);
 				String[] coords = line.split(" ");
-				vectors.add(new Vector3(Integer.parseInt(coords[0]), Integer.parseInt(coords[	1]), Integer.parseInt(coords[2])));
+				vectors.add(new Vector3(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2])));
 				break;
 			}
 			
