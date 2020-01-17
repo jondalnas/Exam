@@ -11,18 +11,22 @@ import com.JoL.PathTracer.objects.Object3D.Face;
 
 public class Loader {
 	
-	public Object3D load(String file) {
+	public static Object3D load(String file) {
 		Scanner scan;
+		
 		try {
-			scan = new Scanner(Loader.class.getResource(file).openStream());
+			scan = new Scanner(Loader.class.getResource("/obj/"+file).openStream());
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		
 		List<Face> faces = new ArrayList<Face>();
 		List<Vector3> vectors = new ArrayList<Vector3>();
 		
 		while (scan.hasNextLine()) {
-			String line = scan.next().toLowerCase();
+			String line = scan.nextLine().toLowerCase();
+			
+			if (line.isEmpty()) continue;
 			
 			switch(line.charAt(0)) {
 			case '#':
@@ -30,19 +34,24 @@ public class Loader {
 			case 'f':
 				line = line.substring(2);
 				String[] indices = line.split(" ");
-				faces.add(new Object3D.Face(new int[] {Integer.parseInt(indices[0]), Integer.parseInt(indices[1], Integer.parseInt(indices[2]))}));
+				
+				faces.add(new Object3D.Face(new int[] {Integer.parseInt(indices[0]),
+													   Integer.parseInt(indices[1]),
+													   Integer.parseInt(indices[2])}));
 				break;
 			case 'v':
 				line = line.substring(2);
 				String[] coords = line.split(" ");
-				vectors.add(new Vector3(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]), Integer.parseInt(coords[2])));
+				vectors.add(new Vector3(Double.parseDouble(coords[0]), Double.parseDouble(coords[1]), Double.parseDouble(coords[2])));
 				break;
 			}
 			
 		}
 		
 		scan.close();
-		
-		return new Object3D((Vector3[]) vectors.toArray(), (Face[]) faces.toArray());
+
+		Vector3[] vector = new Vector3[vectors.size()];
+		Face[] face = new Face[faces.size()];
+		return new Object3D(vectors.toArray(vector), faces.toArray(face));
 	}
 }

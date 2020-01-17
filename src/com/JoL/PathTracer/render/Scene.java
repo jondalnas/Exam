@@ -12,6 +12,8 @@ import com.JoL.PathTracer.colliders.Hit;
 import com.JoL.PathTracer.colliders.Plane;
 import com.JoL.PathTracer.colliders.Ray;
 import com.JoL.PathTracer.colliders.Sphere;
+import com.JoL.PathTracer.objects.Object3D;
+import com.JoL.PathTracer.objects.loader.Loader;
 import com.JoL.PathTracer.render.materials.DiffuseMaterial;
 import com.JoL.PathTracer.render.materials.RefractiveMaterial;
 
@@ -21,7 +23,11 @@ public class Scene {
 	public Scene() {
 		//Load scene
 		scene.add(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(6))));
-		scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		//scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		Object3D teapot = Loader.load("teapot.obj");
+		teapot.material = DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1));
+		teapot.pos = new Vector3(-1, -2, 8);
+		scene.add(teapot);
 		scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
 		//Sides
 		scene.add(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0, 1, 0))));
