@@ -5,9 +5,19 @@ import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
 import java.sql.Savepoint;
+import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
@@ -24,7 +34,7 @@ public class Screen extends Canvas {
 	
 	private static int loadImageIndex = -1;
 	
-	private static final short IMAGE_INTERVAL = 100;
+	private static final short IMAGE_INTERVAL = 1;
 	
 	public Screen(int width, int height) {
 		setSize(width, height);
@@ -37,7 +47,7 @@ public class Screen extends Canvas {
 				while(true) {
 					sample.render();
 
-					synchronized (thread) {
+					synchronized (pixels) {
 						int sc = sampleCount++;
 						
 						for (int i = 0; i < pixels.length; i++) {
@@ -49,17 +59,19 @@ public class Screen extends Canvas {
 				}
 			}
 		};
+		
+		loadImageData();
 
 		img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		pixelArray = ((DataBufferInt) img.getRaster().getDataBuffer()).getData();
 		
-		pixels = new Pixel[pixelArray.length];
-		
-		for (int i = 0; i < pixels.length; i++) {
-			pixels[i] = new Pixel(0);
+		if (pixels == null) {
+			pixels = new Pixel[pixelArray.length];
+			
+			for (int i = 0; i < pixels.length; i++) {
+				pixels[i] = new Pixel(0);
+			}
 		}
-		
-		loadImage();
 	}
 	
 	public void render(int sampleCount) {
@@ -86,6 +98,8 @@ public class Screen extends Canvas {
 				e.printStackTrace();
 			}
 			
+			saveImageData();
+			
 			System.out.println("Rendered " + sampleCount + " frames");
 		}
 		
@@ -111,7 +125,98 @@ public class Screen extends Canvas {
 			}
 		}
 		
-		sampleCount = loadImageIndex;
+		sampleCount = loadImageIndex+1;
+		currentSample = loadImageIndex+1;
+	}
+	
+	public void saveImageData() {
+		File image = new File("res/out/Image.tmp");
+		
+		if (image.exists()) image.delete();
+		
+		OutputStream fos = null;
+		DataOutputStream dos = null;
+		try {
+			fos = new FileOutputStream(image);
+			dos = new DataOutputStream(fos);
+
+			dos.writeInt(sampleCount);
+			dos.writeInt(getWidth());
+			dos.writeInt(getHeight());
+			
+			for (int i = 0; i < pixels.length; i++) {
+				dos.writeDouble(pixels[i].getColorVector().x);
+				dos.writeDouble(pixels[i].getColorVector().y);
+				dos.writeDouble(pixels[i].getColorVector().z);
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				fos.close();
+				dos.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		File oldImage = new File("res/out/Image.raw");
+		if (oldImage.exists()) oldImage.delete();
+		
+		image.renameTo(oldImage);
+	}
+	
+	public void loadImageData() {
+		File image = new File("res/out/Image.raw");
+		
+		if (!image.exists()) return;
+		
+		FileInputStream fis = null;
+		DataInputStream dis = null;
+		try {
+			fis = new FileInputStream(new File("res/out/Image.raw"));
+			dis = new DataInputStream(fis);
+
+			byte[] sampleCountData = new byte[Integer.BYTES];
+			byte[] widthData = new byte[Integer.BYTES];
+			byte[] heightData = new byte[Integer.BYTES];
+
+			dis.read(sampleCountData);
+			dis.read(widthData);
+			dis.read(heightData);
+			
+			sampleCount = ByteBuffer.wrap(sampleCountData).getInt();
+			currentSample = sampleCount;
+			int w = ByteBuffer.wrap(widthData).getInt();
+			int h = ByteBuffer.wrap(heightData).getInt();
+			
+			setSize(w, h);
+			
+			pixels = new Pixel[w * h];
+
+			byte[] redData = new byte[Double.BYTES];
+			byte[] greenData = new byte[Double.BYTES];
+			byte[] blueData = new byte[Double.BYTES];
+			
+			for (int y = 0; y < h; y++) {
+				for (int x = 0; x < w; x++) {
+					dis.read(redData);
+					dis.read(greenData);
+					dis.read(blueData);
+
+					double r = ByteBuffer.wrap(redData).getDouble();
+					double g = ByteBuffer.wrap(greenData).getDouble();
+					double b = ByteBuffer.wrap(blueData).getDouble();
+					
+					pixels[x + y * w] = new Pixel(new Vector3(r, g, b));
+				}
+			}
+			
+			fis.close();
+			dis.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void start() {
