@@ -23,6 +23,8 @@ public class Loader {
 		List<Face> faces = new ArrayList<Face>();
 		List<Vector3> vectors = new ArrayList<Vector3>();
 		
+		
+		System.out.println("Loading " + file + "...");
 		while (scan.hasNextLine()) {
 			String line = scan.nextLine().toLowerCase();
 			
@@ -47,9 +49,11 @@ public class Loader {
 			}
 			
 		}
+		System.out.println("Done!");
 		
 		scan.close();
-
+		
+		System.out.println("Setting up triangles...");
 		Vector3[] vector = new Vector3[vectors.size()];
 		Face[] face = new Face[faces.size()];
 		return new Object3D(vectors.toArray(vector), faces.toArray(face));

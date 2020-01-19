@@ -39,6 +39,9 @@ public class Screen extends Canvas {
 	public Screen(int width, int height) {
 		setSize(width, height);
 		
+		//Initial sample and all lookup tables
+		new Sample(width, height);
+		
 		thread = new Runnable() {
 			@Override
 			public void run() {

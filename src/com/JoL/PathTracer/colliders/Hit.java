@@ -10,11 +10,16 @@ public class Hit {
 	public Material mat;
 	
 	public Hit(Vector3 pos, double dist, Vector3 normal, Material mat) {
-		super();
 		this.pos = pos;
 		this.dist = dist;
 		this.normal = normal;
 		this.mat = mat;
 	}
-	
+
+	public Hit(Hit hit) {
+		pos = hit.pos;
+		dist = hit.dist;
+		normal = hit.normal;
+		mat = hit.mat;
+	}
 }

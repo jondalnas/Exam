@@ -23,29 +23,34 @@ public class Scene {
 	public Scene() {
 		//Load scene
 		scene.add(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(6))));
-		//scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		Object3D teapot = Loader.load("teapot.obj");
 		teapot.material = DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1));
 		teapot.pos = new Vector3(0, -2, 8);
 		scene.add(teapot);
-		//scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
+		scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
 		//Sides
-		//scene.add(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0, 1, 0))));
-		//scene.add(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
+		scene.add(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0, 1, 0))));
+		scene.add(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
 		//Top-bottom
 		scene.add(new Plane(new Vector3(0, -3, 0), new Vector3(0, 1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
-		//scene.add(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		//Front-back
-		//scene.add(new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
-		//scene.add(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 	}
 	
-	public Vector3 getColor(Ray ray, Random rand) {
+	public Vector3 getColor(Ray ray, Random rand, Hit... hit) {
 		//Return background if ray has hit too many objects
 		if (ray.ittration++ > 5) return new Vector3(0, 0, 0);
 		
 		//Get closest pint of collision
-		Hit closest = getClosest(ray);
+		Hit closest = null;
+		if (hit.length == 0) {
+			closest = getClosest(ray);
+		} else {
+			closest = hit[0];
+		}
 		
 		//Return background if ray doesn't hit anything
 		if (closest == null) return new Vector3(0, 0, 0);

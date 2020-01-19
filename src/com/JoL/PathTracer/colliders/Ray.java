@@ -18,6 +18,11 @@ public class Ray {
 		this.dir = dir;
 	}
 	
+	public Ray(Ray ray) {
+		pos = ray.pos;
+		dir = ray.dir;
+	}
+
 	public double getRefractiveIndex() {
 		if (refractiveIndex.empty()) return 1;
 		

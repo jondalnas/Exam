@@ -4,7 +4,7 @@ import com.JoL.PathTracer.Vector3;
 import com.JoL.PathTracer.render.materials.Material;
 
 public class Plane extends Geometry {
-	private Vector3 normal;
+	protected Vector3 normal;
 	private Material mat;
 	
 	public Plane(Vector3 pos, Vector3 normal, Material mat) {
