@@ -44,6 +44,10 @@ public class Pixel {
 		
 		return ((int) (r * 255.0) << 16) | ((int) (g * 255.0) << 8) | (int) (b * 255.0);
 	}
+	
+	public Vector3 getColorVector() {
+		return color;
+	}
 
 	public Pixel capOne() {
 		if (color.x > 1) color.x = 1;
