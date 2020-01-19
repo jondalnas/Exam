@@ -15,7 +15,7 @@ public class Plane extends Geometry {
 
 	public Hit collides(Ray ray) {
 		Vector3 l0 = ray.pos;
-		Vector3 l = ray.dir.normal();
+		Vector3 l = ray.dir;
 		Vector3 n = normal;
 		Vector3 p0 = pos;
 		

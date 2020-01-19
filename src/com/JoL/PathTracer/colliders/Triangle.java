@@ -4,25 +4,29 @@ import com.JoL.PathTracer.Vector3;
 import com.JoL.PathTracer.render.materials.Material;
 
 public class Triangle extends Plane {
-	Vector3 v0;
-	Vector3 v1;
-	Vector3 v2;
+	private Vector3 v0;
+	private Vector3 v1;
+	private Vector3 v2;
+	
+	private Vector3 edge0;
+	private Vector3 edge1;
+	private Vector3 edge2;
 
 	public Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material mat) {
-		super(v0, v0.minus(v1).cross(v0.minus(v2)), mat);
+		super(v0, v0.minus(v1).cross(v0.minus(v2)).normalize(), mat);
 		this.v0 = v0;
 		this.v1 = v1;
 		this.v2 = v2;
+
+		edge0 = v1.minus(v0);
+		edge1 = v2.minus(v1);
+		edge2 = v0.minus(v2);
 	}
 
 	public Hit collides(Ray ray) {
 		Hit hit = super.collides(ray);
 		
 		if (hit == null) return null;
-		
-		Vector3 edge0 = v1.minus(v0);
-		Vector3 edge1 = v2.minus(v1);
-		Vector3 edge2 = v0.minus(v2);
 		
 		Vector3 c0 = hit.pos.minus(v0);
 		Vector3 c1 = hit.pos.minus(v1);
