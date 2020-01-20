@@ -4,7 +4,7 @@ import com.JoL.PathTracer.Vector3;
 import com.JoL.PathTracer.render.materials.Material;
 
 public class Disk extends Plane {
-	private double r;
+	protected double r;
 
 	public Disk(Vector3 pos, Vector3 normal, double radius, Material mat) {
 		super(pos, normal, mat);

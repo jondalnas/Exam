@@ -41,15 +41,15 @@ public class Object3D extends Geometry {
 		for (int i = 0; i < vectors.length; i++) {
 			sphereCenter = sphereCenter.add(vectors[i]);
 		}
-		sphereCenter.mult(1.0 / vectors.length);
+		sphereCenter.multEqual(1.0 / vectors.length);
 		
-		double radius = 0;
+		double radius2 = 0;
 		for (int i = 0; i < vectors.length; i++) {
 			Vector3 toCenter = vectors[i].minus(sphereCenter);
-			if (toCenter.mag() > radius) radius = toCenter.mag();
+			if (toCenter.sqrtMag() > radius2) radius2 = toCenter.sqrtMag();
 		}
 		
-		sphere = new Sphere(sphereCenter, radius, null);
+		sphere = new Sphere(sphereCenter, Math.sqrt(radius2), null);
 		
 		System.out.println("Done!");
 	}
@@ -57,10 +57,10 @@ public class Object3D extends Geometry {
 	public Hit collides(Ray ray) {
 		Ray rayClone = new Ray(ray.pos.minus(pos), ray.dir);
 		
-		if (sphere.collides(rayClone) == null) return null;
-		
+		Hit h = null;
+		if ((h = sphere.collides(rayClone)) == null) return null;
+
 		Hit closest = null;
-		
 		for (int i = 0; i < triangles.length; i++) {
 			Hit hit = triangles[i].collides(rayClone);
 			if (hit == null) continue;
