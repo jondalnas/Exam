@@ -1,5 +1,6 @@
 package com.JoL.PathTracer.render;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,11 +25,17 @@ public class Scene {
 		//Load scene
 		scene.add(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(6))));
 		scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
-		Object3D teapot = Loader.load("teapot.obj");
-		teapot.material = DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1));
-		teapot.pos = new Vector3(0, -2, 8);
-		scene.add(teapot);
-		scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
+		/*Object3D teapot = Loader.load("teapot.obj");
+		teapot.material = new RefractiveMaterial(new Vector3(0.6118, 0.8275, 85.88), 1.33);//DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1));
+		teapot.pos = new Vector3(0, -1, 8);
+		scene.add(teapot);*/
+		
+		Object3D crystal = Loader.load("Crystal wo normals and textures.obj");
+		crystal.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
+		crystal.pos = new Vector3(0, 0, 8);
+		scene.add(crystal);
+		
+		//scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
 		//Sides
 		scene.add(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0, 1, 0))));
 		scene.add(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));

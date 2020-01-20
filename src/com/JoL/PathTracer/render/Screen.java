@@ -34,7 +34,7 @@ public class Screen extends Canvas {
 	
 	private static int loadImageIndex = -1;
 	
-	private static final short IMAGE_INTERVAL = 1;
+	private static final short IMAGE_INTERVAL = 100;
 	
 	public Screen(int width, int height) {
 		setSize(width, height);
