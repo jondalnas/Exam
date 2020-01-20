@@ -28,7 +28,7 @@ public class RefractiveMaterial extends Material {
 		double k = 1.0 - refractiveIndex * refractiveIndex * (1 - theta * theta);
 		
 		if (k < 0) return null;
-		else return in.mult(refractiveIndex).add(normal.mult(refractiveIndex * theta - Math.sqrt(k)));
+		else return in.mult(refractiveIndex).add(normal.mult(refractiveIndex * theta - Math.sqrt(k))).normalize();
 	}
 	
 	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal) {
