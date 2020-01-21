@@ -25,13 +25,15 @@ public class Scene {
 	public Scene() {
 		//Load scene
 		scene.add(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(6))));
-		scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		//scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		/*Object3D teapot = Loader.load("teapot.obj");
 		teapot.material = new RefractiveMaterial(new Vector3(0.6118, 0.8275, 85.88), 1.33);//DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1));
 		teapot.pos = new Vector3(0, -1, 8);
 		scene.add(teapot);*/
 		
-		Object3D crystal = new Object3D(Loader.load("Crystal wo normals and textures.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, 0, 8), new Vector3(2, 1, 1), new Vector3(0, 0, 0)));
+		System.out.println(Matrix4x4.generateRotationMatrix(Math.toRadians(45), 0, 0).mult(new Vector3(0, 1, 0)));
+		
+		Object3D crystal = new Object3D(Loader.load("Crystal wo normals and textures.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, -1.8, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
 		crystal.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
 		scene.add(crystal);
 		
