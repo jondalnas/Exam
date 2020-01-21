@@ -22,7 +22,7 @@ public class Sphere extends Geometry {
 		double dist2 = toSphere.sqrtMag() - cc * cc;
 		if (dist2 > r2) return null;
 		
-		double tDist = Math.sqrt(r2-dist2);
+		double tDist = Math.sqrt(r2 - dist2);
 		double t0 = cc - tDist;
 		double t1 = cc + tDist;
 		

@@ -7,11 +7,11 @@ import java.util.Scanner;
 
 import com.JoL.PathTracer.Vector3;
 import com.JoL.PathTracer.objects.Object3D;
-import com.JoL.PathTracer.objects.Object3D.Face;
+import com.JoL.PathTracer.objects.loader.LoaderObject3D.Face;
 
 public class Loader {
 	
-	public static Object3D load(String file) {
+	public static LoaderObject3D load(String file) {
 		Scanner scan;
 		
 		try {
@@ -37,7 +37,7 @@ public class Loader {
 				line = line.substring(2);
 				String[] indices = line.split(" ");
 				
-				faces.add(new Object3D.Face(new int[] {Integer.parseInt(indices[0]),
+				faces.add(new LoaderObject3D.Face(new int[] {Integer.parseInt(indices[0]),
 													   Integer.parseInt(indices[1]),
 													   Integer.parseInt(indices[2])}));
 				break;
@@ -56,6 +56,6 @@ public class Loader {
 		System.out.println("Setting up triangles...");
 		Vector3[] vector = new Vector3[vectors.size()];
 		Face[] face = new Face[faces.size()];
-		return new Object3D(vectors.toArray(vector), faces.toArray(face));
+		return new LoaderObject3D(vectors.toArray(vector), faces.toArray(face));
 	}
 }

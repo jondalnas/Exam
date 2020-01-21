@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.JoL.PathTracer.MathTools;
+import com.JoL.PathTracer.Matrix4x4;
 import com.JoL.PathTracer.Vector3;
 import com.JoL.PathTracer.colliders.Disk;
 import com.JoL.PathTracer.colliders.Geometry;
@@ -30,9 +31,8 @@ public class Scene {
 		teapot.pos = new Vector3(0, -1, 8);
 		scene.add(teapot);*/
 		
-		Object3D crystal = Loader.load("Crystal wo normals and textures.obj");
+		Object3D crystal = new Object3D(Loader.load("Crystal wo normals and textures.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, 0, 8), new Vector3(2, 1, 1), new Vector3(0, 0, 0)));
 		crystal.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
-		crystal.pos = new Vector3(0, 0, 8);
 		scene.add(crystal);
 		
 		//scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
