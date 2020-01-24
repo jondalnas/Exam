@@ -27,6 +27,11 @@ public class Matrix4x4 {
 	public Matrix4x4 mult(Matrix4x4 mat) {
 		Matrix4x4 newMat = new Matrix4x4();
 
+		newMat.m[0+0*4] = 0;
+		newMat.m[1+1*4] = 0;
+		newMat.m[2+2*4] = 0;
+		newMat.m[3+3*4] = 0;
+
 		for (int y = 0; y < 4; y++) {
 			for (int x = 0; x < 4; x++) {
 				for (int i = 0; i < 4; i++) {
@@ -39,7 +44,7 @@ public class Matrix4x4 {
 	}
 	
 	public static Matrix4x4 generateRotationMatrix(double xTheta, double yTheta, double zTheta) {
-		Matrix4x4 rx = new Matrix4x4();
+		/*Matrix4x4 rx = new Matrix4x4();
 		double xCos = Math.cos(xTheta);
 		double xSin = Math.sin(xTheta);
 		rx.m[1+1*4] = xCos;
@@ -62,8 +67,33 @@ public class Matrix4x4 {
 		rz.m[1+0*4] = -zSin;
 		rz.m[0+1*4] = zSin;
 		rz.m[1+1*4] = zCos;
+		
+		Matrix4x4 result = new Matrix4x4(rx).mult(ry).mult(rz);
 
-		return new Matrix4x4(rx).mult(ry).mult(rz);
+		result.m[3+3*4] = 1;*/
+
+		Matrix4x4 result = new Matrix4x4();
+
+		double xCos = Math.cos(xTheta);
+		double xSin = Math.sin(xTheta);
+		double yCos = Math.cos(yTheta);
+		double ySin = Math.sin(yTheta);
+		double zCos = Math.cos(zTheta);
+		double zSin = Math.sin(zTheta);
+
+		result.m[0+0*4] = yCos * zCos;
+		result.m[1+0*4] = yCos * zSin;
+		result.m[2+0*4] = -ySin;
+
+		result.m[0+1*4] = xSin*ySin*zCos - xCos * zSin;
+		result.m[1+1*4] = xSin*ySin*zSin + xCos * zCos;
+		result.m[2+1*4] = xSin * yCos;
+
+		result.m[0+2*4] = xCos*ySin*zCos + xSin * zSin;
+		result.m[1+2*4] = xCos*ySin*zSin - xSin * zCos;
+		result.m[2+2*4] = xCos * yCos;
+		
+		return result;
 	}
 	
 	public static Matrix4x4 generateScaleMatrix(double xScale, double yScale, double zScale) {
@@ -85,8 +115,8 @@ public class Matrix4x4 {
 	}
 	
 	public static Matrix4x4 generateTransformationMatrix(Vector3 translation, Vector3 scale, Vector3 rotation) {
-		return generateScaleMatrix(scale.x, scale.y, scale.z).mult(
+		return generateTranslationMatrix(translation.x, translation.y, translation.z).mult(
 			   generateRotationMatrix(rotation.x, rotation.y, rotation.z)).mult(
-			   generateTranslationMatrix(translation.x, translation.y, translation.z));
+			   generateScaleMatrix(scale.x, scale.y, scale.z));
 	}
 }
