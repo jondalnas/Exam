@@ -22,6 +22,8 @@ public class Loader {
 		
 		List<Face> faces = new ArrayList<Face>();
 		List<Vector3> vectors = new ArrayList<Vector3>();
+		List<Vector3> normals = new ArrayList<Vector3>();
+		List<Vector3> textures = new ArrayList<Vector3>();
 		
 		
 		System.out.println("Loading " + file + "...");
@@ -30,21 +32,49 @@ public class Loader {
 			
 			if (line.isEmpty()) continue;
 			
-			switch(line.charAt(0)) {
-			case '#':
+			switch(line.split(" ")[0]) {
+			case "#":
 				break;
-			case 'f':
+			case "f":
 				line = line.substring(2);
 				String[] indices = line.split(" ");
 				
-				faces.add(new LoaderObject3D.Face(new int[] {Integer.parseInt(indices[0]),
-													   Integer.parseInt(indices[1]),
-													   Integer.parseInt(indices[2])}));
+				if (!line.contains("/")) {
+					faces.add(new LoaderObject3D.Face(new int[] {Integer.parseInt(indices[0]),
+																 Integer.parseInt(indices[1]),
+																 Integer.parseInt(indices[2])}));
+				} else {
+					faces.add(new LoaderObject3D.Face(new int[] {Integer.parseInt(indices[0].split("/")[0]),
+																 Integer.parseInt(indices[1].split("/")[0]),
+																 Integer.parseInt(indices[2].split("/")[0])},
+							
+													  new int[] {Integer.parseInt(indices[0].split("/")[1]),
+															  	 Integer.parseInt(indices[1].split("/")[1]),
+															  	 Integer.parseInt(indices[2].split("/")[1])},
+														
+													  new int[] {Integer.parseInt(indices[0].split("/")[2]),
+															  	 Integer.parseInt(indices[1].split("/")[2]),
+															  	 Integer.parseInt(indices[2].split("/")[2])}));
+				}
+				
 				break;
-			case 'v':
+				
+			case "v":
 				line = line.substring(2);
 				String[] coords = line.split(" ");
 				vectors.add(new Vector3(Double.parseDouble(coords[0]), Double.parseDouble(coords[1]), Double.parseDouble(coords[2])));
+				break;
+				
+			case "vn":
+				line = line.substring(3);
+				String[] norms = line.split(" ");
+				normals.add(new Vector3(Double.parseDouble(norms[0]), Double.parseDouble(norms[1]), Double.parseDouble(norms[2])));
+				break;
+				
+			case "vt":
+				line = line.substring(3);
+				String[] tex = line.split(" ");
+				textures.add(new Vector3(Double.parseDouble(tex[0]), Double.parseDouble(tex[1]), 0));
 				break;
 			}
 			
@@ -55,7 +85,9 @@ public class Loader {
 		
 		System.out.println("Setting up triangles...");
 		Vector3[] vector = new Vector3[vectors.size()];
+		Vector3[] normal = new Vector3[normals.size()];
+		Vector3[] texture = new Vector3[textures.size()];
 		Face[] face = new Face[faces.size()];
-		return new LoaderObject3D(vectors.toArray(vector), faces.toArray(face));
+		return new LoaderObject3D(vectors.toArray(vector), textures.toArray(texture), normals.toArray(normal), faces.toArray(face));
 	}
 }

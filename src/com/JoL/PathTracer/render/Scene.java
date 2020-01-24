@@ -25,15 +25,23 @@ public class Scene {
 	public Scene() {
 		//Load scene
 		scene.add(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(6))));
-		scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		//scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		/*Object3D teapot = Loader.load("teapot.obj");
 		teapot.material = new RefractiveMaterial(new Vector3(0.6118, 0.8275, 85.88), 1.33);//DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1));
 		teapot.pos = new Vector3(0, -1, 8);
 		scene.add(teapot);*/
 		
-		Object3D crystal = new Object3D(Loader.load("Crystal wo normals and textures.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, 0, 8), new Vector3(2, 1, 1), new Vector3(0, 0, 0)));
+		/*Object3D crystal = new Object3D(Loader.load("Crystal.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, 0, 8), new Vector3(2, 1, 1), new Vector3(0, 0, 0)));
 		crystal.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
-		scene.add(crystal);
+		scene.add(crystal);*/
+		
+		Object3D spherew = new Object3D(Loader.load("Sphere w.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(-1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
+		spherew.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
+		scene.add(spherew);
+		
+		Object3D spherewo = new Object3D(Loader.load("Sphere wo.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
+		spherewo.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
+		scene.add(spherewo);
 		
 		//scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
 		//Sides
@@ -44,7 +52,7 @@ public class Scene {
 		scene.add(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		//Front-back
 		scene.add(new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
-		scene.add(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1))));
 	}
 	
 	public Vector3 getColor(Ray ray, Random rand, Hit... hit) {
