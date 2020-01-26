@@ -27,7 +27,9 @@ public class Object3D extends Geometry {
 		for (int i = 0; i < lo.faces.length; i++) {
 			Face face = lo.faces[i];
 			
-			triangles[i] = new Triangle(lo.vectors[face.vectorIndex[0]-1], lo.vectors[face.vectorIndex[1]-1], lo.vectors[face.vectorIndex[2]-1], null);
+			if (lo.normals.length == 0) triangles[i] = new Triangle(lo.vectors[face.vectorIndex[0]-1], lo.vectors[face.vectorIndex[1]-1], lo.vectors[face.vectorIndex[2]-1], null);
+			else triangles[i] = new Triangle(lo.vectors[face.vectorIndex[0]-1], lo.vectors[face.vectorIndex[1]-1], lo.vectors[face.vectorIndex[2]-1], 
+											 lo.normals[face.normalIndex[0]-1], lo.normals[face.normalIndex[1]-1], lo.normals[face.normalIndex[2]-1], null);
 		}
 		
 		Vector3 sphereCenter = new Vector3(0, 0, 0);
@@ -53,17 +55,25 @@ public class Object3D extends Geometry {
 		if (sphere.collides(rayClone) == null) return null;
 
 		Hit closest = null;
+		int closestIndex = -1;
 		for (int i = 0; i < triangles.length; i++) {
 			Hit hit = triangles[i].collides(rayClone);
 			if (hit == null) continue;
 			
 			if (closest == null || hit.dist < closest.dist) {
 				closest = hit;
+				closestIndex = i;
 			}
 			
 		}
 		
-		if (closest != null) closest.mat = material;
+		if (closest != null) {
+			closest.mat = material;
+			
+			Vector3 normal = triangles[closestIndex].getNormal(closest.pos);
+			
+			if (normal != null) closest.normal = normal;
+		}
 		
 		return closest;
 	}

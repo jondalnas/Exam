@@ -35,7 +35,7 @@ public class Scene {
 		crystal.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
 		scene.add(crystal);*/
 		
-		Object3D lens = new Object3D(Loader.load("Lens 2m 1m.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, /*3.86847195-3*/2.6, 8), new Vector3(3, 3, 1), new Vector3(Math.toRadians(90), 0, 0)));
+		Object3D lens = new Object3D(Loader.load("Lens 2m 1m.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, 3.86847195-3, 8), new Vector3(3, 3, 1), new Vector3(Math.toRadians(90), 0, 0)));
 		lens.material = new RefractiveMaterial(new Vector3(1, 1, 1), 1.517);
 		scene.add(lens);
 		
@@ -48,7 +48,7 @@ public class Scene {
 		scene.add(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		//Front-back
 		scene.add(new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
-		scene.add(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		scene.add(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1))));
 	}
 	
 	public Vector3 getColor(Ray ray, Random rand, Hit... hit) {
