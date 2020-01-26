@@ -31,11 +31,13 @@ public class Scene {
 		teapot.pos = new Vector3(0, -1, 8);
 		scene.add(teapot);*/
 		
-		System.out.println(Matrix4x4.generateRotationMatrix(Math.toRadians(45), 0, 0).mult(new Vector3(0, 1, 0)));
-		
-		Object3D crystal = new Object3D(Loader.load("Crystal wo normals and textures.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, -1.8, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
+		/*Object3D crystal = new Object3D(Loader.load("Crystal wo normals and textures.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, -1.8, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
 		crystal.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
-		scene.add(crystal);
+		scene.add(crystal);*/
+		
+		Object3D lens = new Object3D(Loader.load("Lens 2m 1m.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, /*3.86847195-3*/2.6, 8), new Vector3(3, 3, 1), new Vector3(Math.toRadians(90), 0, 0)));
+		lens.material = new RefractiveMaterial(new Vector3(1, 1, 1), 1.517);
+		scene.add(lens);
 		
 		//scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
 		//Sides
@@ -87,7 +89,9 @@ public class Scene {
 			if (refractiveDir != null) {
 				Ray refractRay = new Ray(closest.pos, refractiveDir);
 				refractRay.ittration = ray.ittration;
-				refractRay.refractiveIndex.push(((RefractiveMaterial) closest.mat).indexOfRefraction);
+				refractRay.refractiveIndex = ray.refractiveIndex;
+				if (ray.dir.dot(closest.normal) < 0) refractRay.refractiveIndex.push(((RefractiveMaterial) closest.mat).indexOfRefraction);
+				else if (!refractRay.refractiveIndex.isEmpty()) refractRay.refractiveIndex.pop();
 				
 				Vector3 refractColor = getColor(refractRay, rand);
 				
