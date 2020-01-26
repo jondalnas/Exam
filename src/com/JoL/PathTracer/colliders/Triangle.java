@@ -36,7 +36,8 @@ public class Triangle extends Disk {
 	public Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Vector3 n0, Vector3 n1, Vector3 n2, Material mat) {
 		this(v0, v1, v2, mat);
 
-		normal = n0.add(n1).add(n2).mult(1.0/3.0);
+		if (normal.dot(n0.add(n1).add(n2).mult(1.0/3.0)) < 0)
+			normal.multEqual(-1);
 		
 		this.n0 = n0;
 		this.n1 = n1;
