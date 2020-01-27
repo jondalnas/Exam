@@ -1,6 +1,5 @@
 package com.JoL.PathTracer.colliders;
 
-import java.util.List;
 import java.util.Stack;
 
 import com.JoL.PathTracer.Vector3;

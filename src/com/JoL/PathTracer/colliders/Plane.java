@@ -5,7 +5,6 @@ import com.JoL.PathTracer.render.materials.Material;
 
 public class Plane extends Geometry {
 	protected Vector3 normal;
-	private Material mat;
 	
 	public Plane(Vector3 pos, Vector3 normal, Material mat) {
 		super(pos);
@@ -31,5 +30,8 @@ public class Plane extends Geometry {
 		
 		return null;
 	}
-	
+
+	public Vector3 imageColor(Vector3 pos, int imageIndex) {
+		return null;
+	}
 }

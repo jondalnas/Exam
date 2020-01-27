@@ -1,6 +1,5 @@
 package com.JoL.PathTracer.render;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,10 +12,11 @@ import com.JoL.PathTracer.colliders.Geometry;
 import com.JoL.PathTracer.colliders.Hit;
 import com.JoL.PathTracer.colliders.Plane;
 import com.JoL.PathTracer.colliders.Ray;
-import com.JoL.PathTracer.colliders.Sphere;
 import com.JoL.PathTracer.objects.Object3D;
+import com.JoL.PathTracer.objects.loader.ImageLoader;
 import com.JoL.PathTracer.objects.loader.Loader;
 import com.JoL.PathTracer.render.materials.DiffuseMaterial;
+import com.JoL.PathTracer.render.materials.Material;
 import com.JoL.PathTracer.render.materials.RefractiveMaterial;
 
 public class Scene {
@@ -24,12 +24,12 @@ public class Scene {
 	
 	public Scene() {
 		//Load scene
-		scene.add(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(6))));
-		//scene.add(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		addObject(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(6))));
+		//addObject(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		/*Object3D teapot = Loader.load("teapot.obj");
 		teapot.material = new RefractiveMaterial(new Vector3(0.6118, 0.8275, 85.88), 1.33);//DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1));
 		teapot.pos = new Vector3(0, -1, 8);
-		scene.add(teapot);*/
+		addObject(teapot);*/
 		
 		/*Object3D crystal = new Object3D(Loader.load("Crystal wo normals and textures.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, -1.8, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
 		crystal.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
@@ -41,26 +41,28 @@ public class Scene {
 		
 		/*Object3D crystal = new Object3D(Loader.load("Crystal.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, 0, 8), new Vector3(2, 1, 1), new Vector3(0, 0, 0)));
 		crystal.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
-		scene.add(crystal);*/
+		addObject(crystal);*/
 		
-		Object3D spherew = new Object3D(Loader.load("Sphere w.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(-1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
-		spherew.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
-		scene.add(spherew);
+		/*Object3D spherew = new Object3D(Loader.load("Sphere w.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(-1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
+		addObject(spherew, new DiffuseMaterial(ImageLoader.cage.ordinal()));*/
 		
-		Object3D spherewo = new Object3D(Loader.load("Sphere wo.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
+		Object3D plane = new Object3D(Loader.load("Plane.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, 0, 8), new Vector3(1, 1, 1), new Vector3(Math.toRadians(-90), 0, 0)));
+		addObject(plane, new DiffuseMaterial(ImageLoader.cage.ordinal()));
+		
+		/*Object3D spherewo = new Object3D(Loader.load("Sphere wo.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
 		spherewo.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
-		scene.add(spherewo);
+		addObject(spherewo);*/
 		
-		//scene.add(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
+		//addObject(new Sphere(new Vector3(1.5, 0, 6), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.52)));
 		//Sides
-		scene.add(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0, 1, 0))));
-		scene.add(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
+		addObject(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0, 1, 0))));
+		addObject(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
 		//Top-bottom
-		scene.add(new Plane(new Vector3(0, -3, 0), new Vector3(0, 1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
-		scene.add(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		addObject(new Plane(new Vector3(0, -3, 0), new Vector3(0, 1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		addObject(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		//Front-back
-		scene.add(new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
-		scene.add(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1))));
+		addObject(new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		addObject(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1))));
 	}
 	
 	public Vector3 getColor(Ray ray, Random rand, Hit... hit) {
@@ -90,13 +92,14 @@ public class Scene {
 		if (!(closest.mat instanceof RefractiveMaterial)) {
 			//L_e + (L_i * f_r * (w_i . n)) / pdf
 			//f_r = diffues / PI
-			return closest.mat.emission.add(getColor(newRay, rand).mult(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal)).mult(cosTheta).mult(1.0/pdf));
+			
+			return closest.mat.emission.add(getColor(newRay, rand).mult(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal, closest.pos)).mult(cosTheta).mult(1.0/pdf));
 		} else {
 			double refractiveIndexOfRay = ray.getRefractiveIndex();
 			
 			Vector3 refractiveDir = ((RefractiveMaterial) closest.mat).refract(ray.dir, closest.normal, refractiveIndexOfRay);
 			
-			Vector3 reflectColor = closest.mat.emission.add(getColor(newRay, rand).mult(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal)).mult(cosTheta).mult(1.0/pdf));
+			Vector3 reflectColor = closest.mat.emission.add(getColor(newRay, rand).mult(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal, closest.pos)).mult(cosTheta).mult(1.0/pdf));
 			
 			if (refractiveDir != null) {
 				Ray refractRay = new Ray(closest.pos, refractiveDir);
@@ -130,5 +133,16 @@ public class Scene {
 		}
 		
 		return closest;
+	}
+	
+	public void addObject(Geometry geometry) {
+		geometry.mat.geometry = geometry;
+		scene.add(geometry);
+	}
+	
+	public void addObject(Geometry geometry, Material mat) {
+		geometry.mat = mat;
+		geometry.mat.geometry = geometry;
+		scene.add(geometry);
 	}
 }

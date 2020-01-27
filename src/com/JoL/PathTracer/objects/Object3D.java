@@ -9,11 +9,9 @@ import com.JoL.PathTracer.colliders.Sphere;
 import com.JoL.PathTracer.colliders.Triangle;
 import com.JoL.PathTracer.objects.loader.LoaderObject3D;
 import com.JoL.PathTracer.objects.loader.LoaderObject3D.Face;
-import com.JoL.PathTracer.render.materials.Material;
 
 public class Object3D extends Geometry {
 	public final Triangle[] triangles;
-	public Material material;
 	private Sphere sphere;
 	
 	public Object3D(LoaderObject3D lo, Matrix4x4 transform) {
@@ -29,7 +27,8 @@ public class Object3D extends Geometry {
 			
 			if (lo.normals.length == 0) triangles[i] = new Triangle(lo.vectors[face.vectorIndex[0]-1], lo.vectors[face.vectorIndex[1]-1], lo.vectors[face.vectorIndex[2]-1], null);
 			else triangles[i] = new Triangle(lo.vectors[face.vectorIndex[0]-1], lo.vectors[face.vectorIndex[1]-1], lo.vectors[face.vectorIndex[2]-1], 
-											 lo.normals[face.normalIndex[0]-1], lo.normals[face.normalIndex[1]-1], lo.normals[face.normalIndex[2]-1], null);
+											 lo.normals[face.normalIndex[0]-1], lo.normals[face.normalIndex[1]-1], lo.normals[face.normalIndex[2]-1], 
+											 lo.textures[face.textureIndex[0]-1], lo.textures[face.textureIndex[1]-1], lo.textures[face.textureIndex[2]-1], null);
 		}
 		
 		Vector3 sphereCenter = new Vector3(0, 0, 0);
@@ -68,14 +67,18 @@ public class Object3D extends Geometry {
 		}
 		
 		if (closest != null) {
-			closest.mat = material;
+			closest.mat = mat.makeCopy();
+			closest.mat.geometry = triangles[closestIndex];
 			
 			Vector3 normal = triangles[closestIndex].getNormal(closest.pos);
-			
 			if (normal != null) closest.normal = normal;
 		}
 		
 		return closest;
+	}
+
+	public Vector3 imageColor(Vector3 pos, int imageIndex) {
+		return null;
 	}
 }
 
