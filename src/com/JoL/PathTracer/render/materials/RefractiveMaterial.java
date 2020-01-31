@@ -31,7 +31,7 @@ public class RefractiveMaterial extends Material {
 		else return in.mult(refractiveIndex).add(normal.mult(refractiveIndex * theta - Math.sqrt(k))).normalize();
 	}
 	
-	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal) {
-		return color.mult(1.0/Math.PI);
+	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal, Vector3 inColor) {
+		return inColor.mult(color.mult(1.0/Math.PI));
 	}
 }

@@ -15,5 +15,5 @@ public abstract class Material {
 		this.emission = emission;
 	}
 	
-	public abstract Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal);
+	public abstract Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal, Vector3 inColor);
 }

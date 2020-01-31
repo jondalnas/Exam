@@ -19,7 +19,7 @@ public class DiffuseMaterial extends Material {
 		return mat;
 	}
 
-	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal) {
-		return color.mult(1.0/Math.PI);
+	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal, Vector3 inColor) {
+		return inColor.mult(color.mult(1.0/Math.PI));
 	}
 }
