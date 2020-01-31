@@ -12,6 +12,7 @@ import com.JoL.PathTracer.colliders.Geometry;
 import com.JoL.PathTracer.colliders.Hit;
 import com.JoL.PathTracer.colliders.Plane;
 import com.JoL.PathTracer.colliders.Ray;
+import com.JoL.PathTracer.colliders.Sphere;
 import com.JoL.PathTracer.objects.Object3D;
 import com.JoL.PathTracer.objects.loader.ImageLoader;
 import com.JoL.PathTracer.objects.loader.Loader;
@@ -46,8 +47,18 @@ public class Scene {
 		/*Object3D spherew = new Object3D(Loader.load("Sphere w.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(-1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
 		addObject(spherew, new DiffuseMaterial(ImageLoader.cage.ordinal()));*/
 		
-		Object3D plane = new Object3D(Loader.load("Plane.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, 0, 8), new Vector3(1, 1, 1), new Vector3(Math.toRadians(-90), 0, 0)));
+		/*Object3D plane = new Object3D(Loader.load("Plane.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, 0, 8), new Vector3(1, 1, 1), new Vector3(Math.toRadians(-90), 0, 0)));
 		addObject(plane, new DiffuseMaterial(ImageLoader.cage.ordinal()));
+		
+		addObject(new Sphere(new Vector3(0, 0, 0), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.544)));*/
+
+		Matrix4x4 ornamentMatrix = Matrix4x4.generateTransformationMatrix(new Vector3(0, -1.5, 8), new Vector3(1.5, 1.5, 1.5), new Vector3(0, Math.toRadians(120), 0));
+		Object3D ornament = new Object3D(Loader.load("Ornament.obj"), ornamentMatrix);
+		addObject(ornament, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.831, 0.686, 0.216)));
+		Object3D ornamentThread = new Object3D(Loader.load("Ornament thread.obj"), ornamentMatrix);
+		addObject(ornamentThread, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.831, 0.686, 0.216)));
+		Object3D ornamentHole = new Object3D(Loader.load("Ornament hole.obj"), ornamentMatrix);
+		addObject(ornamentHole, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.831, 0.686, 0.216)));
 		
 		/*Object3D spherewo = new Object3D(Loader.load("Sphere wo.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
 		spherewo.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
