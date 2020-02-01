@@ -31,7 +31,14 @@ public class RefractiveMaterial extends Material {
 		else return in.mult(refractiveIndex).add(normal.mult(refractiveIndex * theta - Math.sqrt(k))).normalize();
 	}
 	
-	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal, Vector3 inColor) {
-		return inColor.mult(color.mult(1.0/Math.PI));
+	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal, Vector3 hitPos, Vector3 inColor) {
+		return inColor.mult(getColor(hitPos).mult(1.0/Math.PI));
+	}
+
+	public Material makeCopy() {
+		RefractiveMaterial mat = new RefractiveMaterial(color, indexOfRefraction);
+		mat.emission = emission;
+		mat.geometry = geometry;
+		return mat;
 	}
 }

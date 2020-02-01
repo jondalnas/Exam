@@ -1,16 +1,11 @@
 package com.JoL.PathTracer.render;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import com.JoL.PathTracer.Camera;
-import com.JoL.PathTracer.Matrix4x4;
 import com.JoL.PathTracer.Vector3;
-import com.JoL.PathTracer.colliders.Geometry;
 import com.JoL.PathTracer.colliders.Hit;
 import com.JoL.PathTracer.colliders.Ray;
-import com.JoL.PathTracer.colliders.Sphere;
 
 public class Sample {
 	private final int width, height;

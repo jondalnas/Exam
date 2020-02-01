@@ -6,7 +6,6 @@ import com.JoL.PathTracer.render.materials.Material;
 public class Sphere extends Geometry {
 	public double r;
 	private double r2;
-	public Material mat;
 	
 	public Sphere(Vector3 pos, double r, Material mat) {
 		super(pos);
@@ -36,4 +35,7 @@ public class Sphere extends Geometry {
 		return new Hit(pos, t0, pos.minus(this.pos).mult(1.0/r), mat);
 	}
 
+	public Vector3 imageColor(Vector3 pos, int imageIndex) {
+		return null;
+	}
 }
