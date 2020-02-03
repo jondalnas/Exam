@@ -46,12 +46,15 @@ public class Scene {
 		
 		//Object3D teapot = new Object3D(Loader.load("teapot.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, -3, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
 		//addObject(teapot, new CookTorranceMaterial(new Vector3(1, 215/255.0, 0), 0.3, 3));
+		//teapot.mat = new CookTorranceMaterial(new Vector3(1, 215/255.0, 0), 0.3, 3);
+		//scene.add(teapot);
 		
 		//scene.add(new Sphere(new Vector3(-1.5, -0.5, 8), 1, new CookTorranceMaterial(new Vector3(1, 215.0/255.0, 0), 0.3, 3)));
 		
 		//Object3D spherewo = new Object3D(Loader.load("Sphere wo.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
 		//spherewo.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
 		//scene.add(spherewo);
+		
 		//Object3D lens = new Object3D(Loader.load("Lens 2m 1m.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, /*3.86847195-3*/2.6, 8), new Vector3(3, 3, 1), new Vector3(Math.toRadians(90), 0, 0)));
 		//lens.material = new RefractiveMaterial(new Vector3(1, 1, 1), 1.517);
 		//scene.add(lens);
@@ -70,9 +73,9 @@ public class Scene {
 
 		/*Matrix4x4 ornamentMatrix = Matrix4x4.generateTransformationMatrix(new Vector3(0, -1.5, 8), new Vector3(1.5, 1.5, 1.5), new Vector3(0, Math.toRadians(120), 0));
 		Object3D ornament = new Object3D(Loader.load("Ornament.obj"), ornamentMatrix);
-		addObject(ornament, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.831, 0.686, 0.216)));
+		addObject(ornament, new CookTorranceMaterial(new Vector3(0.831, 0.686, 0.216), 0.3, 3));
 		Object3D ornamentThread = new Object3D(Loader.load("Ornament thread.obj"), ornamentMatrix);
-		addObject(ornamentThread, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.831, 0.686, 0.216)));
+		addObject(ornamentThread, new CookTorranceMaterial(new Vector3(0.831, 0.686, 0.216), 0.3, 3));
 		Object3D ornamentHole = new Object3D(Loader.load("Ornament hole.obj"), ornamentMatrix);
 		addObject(ornamentHole, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.831, 0.686, 0.216)));*/
 		

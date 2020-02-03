@@ -24,7 +24,7 @@ public class Screen extends Canvas {
 	private BufferedImage img;
 	private int[] pixelArray;
 	private Pixel[] pixels;
-	private static int NUM_CPUS = Runtime.getRuntime().availableProcessors();
+	private static int NUM_CPUS = 1;//Runtime.getRuntime().availableProcessors();
 	public int sampleCount = 0;
 	public static int currentSample = 0;
 	private Runnable thread;
