@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.JoL.PathTracer.Vector3;
-import com.JoL.PathTracer.objects.Object3D;
 import com.JoL.PathTracer.objects.loader.LoaderObject3D.Face;
 
 public class Loader {

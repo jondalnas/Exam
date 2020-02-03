@@ -13,7 +13,13 @@ public class CookTorranceMaterial extends Material {
 		this.roughness = roughness;
 	}
 	
-	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal, Vector3 inColor) {
+	public CookTorranceMaterial(int imageIndex, double roughness, double refractiveIndex) {
+		super(imageIndex);
+		this.refractiveIndex = refractiveIndex;
+		this.roughness = roughness;
+	}
+	
+	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal, Vector3 hitPos, Vector3 inColor) {
 		Vector3 V = dirIn;
 		Vector3 L = dirOut;
 		Vector3 H = L.add(V).mult(1.0/2.0).normal();
@@ -24,7 +30,7 @@ public class CookTorranceMaterial extends Material {
 		
 		double k_spec = ((DBeckmann(H, normal, theta, roughness)*MathTools.fresnel(V, H, 1, refractiveIndex)*GTorrance(V, L, normal, H))/(4.0*(V.dot(normal)*(normal.dot(L)))));
 		
-		return inColor.mult(k_spec).add(inColor.mult(color.mult(1 - MathTools.fresnel(L.mult(-1), normal, 1, refractiveIndex))));
+		return inColor.mult(k_spec).add(inColor.mult(getColor(hitPos).mult(1 - MathTools.fresnel(L.mult(-1), normal, 1, refractiveIndex))));
 	}
 
 	public int chi(double a) {
@@ -49,5 +55,12 @@ public class CookTorranceMaterial extends Material {
 		
 		return Math.exp((nh2 - 1) / (roughness2 * nh2))/(Math.PI*roughness2*nh2*nh2);
 		//return (chi(a)*(H.dot(n))/(Math.PI)*roughness*theta*theta*theta*theta)*Math.exp(((1-theta*theta)/(theta*theta*roughness*roughness)));
+	}
+
+	public Material makeCopy() {
+		CookTorranceMaterial mat = new CookTorranceMaterial(color, roughness, refractiveIndex);
+		mat.emission = emission;
+		
+		return mat;
 	}
 }

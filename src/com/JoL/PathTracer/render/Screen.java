@@ -9,21 +9,18 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.math.BigInteger;
 import java.nio.ByteBuffer;
-import java.sql.Savepoint;
-import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 
 import com.JoL.PathTracer.Vector3;
 
 public class Screen extends Canvas {
+	private static final long serialVersionUID = 1L;
+	
 	private BufferedImage img;
 	private int[] pixelArray;
 	private Pixel[] pixels;
@@ -34,7 +31,7 @@ public class Screen extends Canvas {
 	
 	private static int loadImageIndex = -1;
 	
-	private static final short IMAGE_INTERVAL = 1;
+	private static final short IMAGE_INTERVAL = -1;
 	
 	public Screen(int width, int height) {
 		setSize(width, height);
@@ -94,7 +91,7 @@ public class Screen extends Canvas {
 		g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
 		
 		//TODO: Save images at specific intervals
-		if (sampleCount % IMAGE_INTERVAL == 0) {
+		if (IMAGE_INTERVAL != -1 && sampleCount % IMAGE_INTERVAL == 0) {
 			try {
 				ImageIO.write(img, "png", new File("res/out/Image @" + sampleCount + " sample count.png"));
 			} catch (IOException e) {

@@ -1,6 +1,5 @@
 package com.JoL.PathTracer.colliders;
 
-import java.util.List;
 import java.util.Stack;
 
 import com.JoL.PathTracer.Vector3;
@@ -24,8 +23,6 @@ public class Ray {
 	}
 
 	public double getRefractiveIndex() {
-		if (!refractiveIndex.empty()) refractiveIndex.pop();
-		
 		if (refractiveIndex.empty()) return 1;
 		
 		return refractiveIndex.peek();
