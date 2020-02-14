@@ -17,6 +17,7 @@ import java.nio.ByteBuffer;
 import javax.imageio.ImageIO;
 
 import com.JoL.PathTracer.Vector3;
+import com.JoL.PathTracer.objects.loader.ImageLoader;
 
 public class Screen extends Canvas {
 	private static final long serialVersionUID = 1L;
@@ -24,14 +25,14 @@ public class Screen extends Canvas {
 	private BufferedImage img;
 	private int[] pixelArray;
 	private Pixel[] pixels;
-	private static int NUM_CPUS = 1;//Runtime.getRuntime().availableProcessors();
+	private static int NUM_CPUS = Runtime.getRuntime().availableProcessors();
 	public int sampleCount = 0;
 	public static int currentSample = 0;
 	private Runnable thread;
 	
 	private static int loadImageIndex = -1;
 	
-	private static final short IMAGE_INTERVAL = -1;
+	private static final short IMAGE_INTERVAL = 10;
 	
 	public Screen(int width, int height) {
 		setSize(width, height);

@@ -26,7 +26,7 @@ public class Scene {
 	
 	public Scene() {
 		//Load scene
-		addObject(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(6))));
+		addObject(new Disk(new Vector3(0, 3, 8), new Vector3(0, -1, 0), 1, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).mult(3))));
 		//addObject(new Sphere(new Vector3(-1, -2, 8), 1, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		/*Object3D teapot = Loader.load("teapot.obj");
 		teapot.material = new RefractiveMaterial(new Vector3(0.6118, 0.8275, 85.88), 1.33);//DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1));
@@ -71,13 +71,13 @@ public class Scene {
 		
 		//addObject(new Sphere(new Vector3(0, 0, 0), 1, new RefractiveMaterial(new Vector3(1, 1, 1), 1.544)));
 
-		/*Matrix4x4 ornamentMatrix = Matrix4x4.generateTransformationMatrix(new Vector3(0, -1.5, 8), new Vector3(1.5, 1.5, 1.5), new Vector3(0, Math.toRadians(120), 0));
+		Matrix4x4 ornamentMatrix = Matrix4x4.generateTransformationMatrix(new Vector3(0, -1.5, 8), new Vector3(1.5, 1.5, 1.5), new Vector3(0, Math.toRadians(120), 0));
 		Object3D ornament = new Object3D(Loader.load("Ornament.obj"), ornamentMatrix);
-		addObject(ornament, new CookTorranceMaterial(new Vector3(0.831, 0.686, 0.216), 0.3, 3));
+		addObject(ornament, new CookTorranceMaterial(new Vector3(0.831, 0.686, 0.216), ImageLoader.ornamentRoughness.ordinal(), 3));
 		Object3D ornamentThread = new Object3D(Loader.load("Ornament thread.obj"), ornamentMatrix);
-		addObject(ornamentThread, new CookTorranceMaterial(new Vector3(0.831, 0.686, 0.216), 0.3, 3));
+		//addObject(ornamentThread, new CookTorranceMaterial(new Vector3(0.831, 0.686, 0.216), 0.3, 3));
 		Object3D ornamentHole = new Object3D(Loader.load("Ornament hole.obj"), ornamentMatrix);
-		addObject(ornamentHole, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.831, 0.686, 0.216)));*/
+		addObject(ornamentHole, DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.831, 0.686, 0.216)));
 		
 		/*Object3D spherewo = new Object3D(Loader.load("Sphere wo.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(1.5, 0, 8), new Vector3(1, 1, 1), new Vector3(0, 0, 0)));
 		spherewo.material = new RefractiveMaterial(new Vector3(0.6, 0.4, 0.8), 1.544);
@@ -89,7 +89,7 @@ public class Scene {
 		addObject(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
 		//Top-bottom
 		Object3D plane = new Object3D(Loader.load("Plane.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, -3, 5), new Vector3(5, 1, 5), new Vector3(0, 0, 0)));
-		addObject(plane, new CookTorranceMaterial(ImageLoader.tile.ordinal(), 0.9, 2));
+		addObject(plane, new CookTorranceMaterial(ImageLoader.tile.ordinal(), ImageLoader.tileRoughness.ordinal(), 2));
 		//addObject(new Plane(new Vector3(0, -3, 0), new Vector3(0, 1, 0), new CookTorranceMaterial(new Vector3(0.9, 0.9, 0.9), 0.1, 30)));//DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		addObject(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		//Front-back

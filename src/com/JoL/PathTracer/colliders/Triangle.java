@@ -101,7 +101,7 @@ public class Triangle extends Disk {
 		
 		Vector3 texPos = t0.mult(C0).add(t1.mult(C1)).add(t2.mult(C2));
 		
-		int color = img.getRGB((int) ((texPos.x % 1.0) * img.getWidth()), (int) ((texPos.y % 1.0) * img.getHeight()));
+		int color = img.getRGB((int) ((texPos.x % 1.0) * img.getWidth()), (int) ((1.0 - (texPos.y % 1.0)) * img.getHeight()));
 		
 		return new Vector3(((color >> 16) & 0xff) / 255.0, ((color >> 8) & 0xff) / 255.0, ((color >> 0) & 0xff) / 255.0);
 	}

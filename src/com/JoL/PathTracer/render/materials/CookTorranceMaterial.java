@@ -6,22 +6,30 @@ import com.JoL.PathTracer.Vector3;
 public class CookTorranceMaterial extends Material {
 	public double roughness;
 	public double refractiveIndex;
-	private double roughness2;
+	public int roughnessImageIndex = -1;
 	
 	public CookTorranceMaterial(Vector3 color, double roughness, double refractiveIndex) {
 		this.color = color;
 		this.refractiveIndex = refractiveIndex;
 		this.roughness = roughness;
-		
-		roughness2 = roughness * roughness;
 	}
 	
 	public CookTorranceMaterial(int imageIndex, double roughness, double refractiveIndex) {
 		this.imageIndex = imageIndex;
 		this.refractiveIndex = refractiveIndex;
 		this.roughness = roughness;
-		
-		roughness2 = roughness * roughness;
+	}
+	
+	public CookTorranceMaterial(Vector3 color, int roughnessImageIndex, double refractiveIndex) {
+		this.color = color;
+		this.refractiveIndex = refractiveIndex;
+		this.roughnessImageIndex = roughnessImageIndex;
+	}
+	
+	public CookTorranceMaterial(int imageIndex, int roughnessImageIndex, double refractiveIndex) {
+		this.imageIndex = imageIndex;
+		this.refractiveIndex = refractiveIndex;
+		this.roughnessImageIndex = roughnessImageIndex;
 	}
 	
 	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal, Vector3 hitPos, Vector3 inColor) {
@@ -32,6 +40,8 @@ public class CookTorranceMaterial extends Material {
 		//double a = 1.0/(roughness*(Math.sqrt(1-theta*theta)/(theta)));
 		//double G = 1.0;
 		//if (a < 1.6) G = (3.535*a+2.181*a*a) / (1+2.276*a+2.577*a*a);
+
+		if (roughnessImageIndex != -1) roughness = geometry.imageColor(hitPos, roughnessImageIndex).x + 0.0001; //Add a small number so roughness isn't zero
 		
 		double k_spec = ((DBeckmann(H, normal, theta, roughness)*MathTools.fresnel(V, H, 1, refractiveIndex)*GTorrance(V, L, normal, H, theta))/(4.0*(V.dot(normal)*(normal.dot(L)))));
 		
@@ -43,7 +53,7 @@ public class CookTorranceMaterial extends Material {
 	}
 	
 	public double G1(Vector3 V, Vector3 H, Vector3 N, double G) {
-		return chi((V.dot(H)/V.dot(N)))*G;
+		return chi(V.dot(H) / V.dot(N)) * G;
 	}
 	
 	public double GTorrance(Vector3 V, Vector3 L, Vector3 normal, Vector3 H, double theta) {
@@ -57,6 +67,7 @@ public class CookTorranceMaterial extends Material {
 	public double DBeckmann(Vector3 H, Vector3 n, double theta, double roughness) {
 		double nh2 = n.dot(H);
 		nh2 *= nh2;
+		double roughness2 = roughness * roughness;
 		
 		return Math.exp((nh2 - 1) / (roughness2 * nh2))/(Math.PI * roughness2 * nh2 * nh2);
 		//return (chi(a)*(H.dot(n))/(Math.PI)*roughness*theta*theta*theta*theta)*Math.exp(((1-theta*theta)/(theta*theta*roughness*roughness)));
@@ -66,6 +77,7 @@ public class CookTorranceMaterial extends Material {
 		CookTorranceMaterial mat = new CookTorranceMaterial(color, roughness, refractiveIndex);
 		mat.emission = emission;
 		mat.imageIndex = imageIndex;
+		mat.roughnessImageIndex = roughnessImageIndex;
 		
 		return mat;
 	}
