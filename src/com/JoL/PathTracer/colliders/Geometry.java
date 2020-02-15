@@ -7,6 +7,8 @@ public abstract class Geometry {
 	public Material mat;
 	public Vector3 pos;
 	
+	public short index = -1;
+	
 	public Geometry(Vector3 pos) {
 		this.pos = pos;
 	}
@@ -14,4 +16,8 @@ public abstract class Geometry {
 	public abstract Hit collides(Ray ray);
 
 	public abstract Vector3 imageColor(Vector3 pos, int imageIndex);
+
+	public short getIndex() {
+		return index;
+	}
 }

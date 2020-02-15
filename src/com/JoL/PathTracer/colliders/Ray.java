@@ -10,7 +10,28 @@ public class Ray {
 	
 	public byte ittration = 0;
 	
-	public Stack<Double> refractiveIndex = new Stack<Double>();
+	public class RefractiveIndexGeometry {
+		double refractiveIndex = 1;
+		short geometry = -1;
+		
+		public RefractiveIndexGeometry() {
+		}
+		
+		public RefractiveIndexGeometry(double refractiveIndex, short geometry) {
+			this.refractiveIndex = refractiveIndex;
+			this.geometry = geometry;
+		}
+		
+		public double getRefractiveIndex() {
+			return refractiveIndex;
+		}
+
+		public boolean isSameGeometry(short index) {
+			return geometry == index;
+		}
+	}
+	
+	public Stack<RefractiveIndexGeometry> refractiveIndex = new Stack<RefractiveIndexGeometry>();
 	
 	public Ray(Vector3 pos, Vector3 dir) {
 		this.pos = pos;
@@ -22,8 +43,8 @@ public class Ray {
 		dir = ray.dir;
 	}
 
-	public double getRefractiveIndex() {
-		if (refractiveIndex.empty()) return 1;
+	public RefractiveIndexGeometry getRefractiveIndex() {
+		if (refractiveIndex.empty()) return new RefractiveIndexGeometry();
 		
 		return refractiveIndex.peek();
 	}

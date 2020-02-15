@@ -3,6 +3,7 @@ package com.JoL.PathTracer.colliders;
 import java.awt.image.BufferedImage;
 
 import com.JoL.PathTracer.Vector3;
+import com.JoL.PathTracer.objects.Object3D;
 import com.JoL.PathTracer.objects.loader.ImageLoader;
 import com.JoL.PathTracer.render.materials.Material;
 
@@ -14,6 +15,8 @@ public class Triangle extends Disk {
 	private Vector3 edge0, edge1, edge2;
 	
 	private double area2;
+	
+	public short parent = -1;
 	
 	public Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Material mat) {
 		super(null, v1.minus(v0).cross(v2.minus(v0)).normalize(), 0, mat);
@@ -40,7 +43,7 @@ public class Triangle extends Disk {
 	public Triangle(Vector3 v0, Vector3 v1, Vector3 v2, Vector3 n0, Vector3 n1, Vector3 n2, Vector3 t0, Vector3 t1, Vector3 t2, Material mat) {
 		this(v0, v1, v2, mat);
 
-		if (normal.dot(n0.add(n1).add(n2).mult(1.0/3.0)) < 0)
+		if (normal.dot(n0.add(n1).add(n2)) < 0)
 			normal.multEqual(-1);
 		
 		this.n0 = n0;
@@ -104,5 +107,13 @@ public class Triangle extends Disk {
 		int color = img.getRGB((int) ((texPos.x % 1.0) * img.getWidth()), (int) ((1.0 - (texPos.y % 1.0)) * img.getHeight()));
 		
 		return new Vector3(((color >> 16) & 0xff) / 255.0, ((color >> 8) & 0xff) / 255.0, ((color >> 0) & 0xff) / 255.0);
+	}
+	
+	public short getIndex() {
+		return parent;
+	}
+	
+	public void setParent(short obj) {
+		parent = obj;
 	}
 }

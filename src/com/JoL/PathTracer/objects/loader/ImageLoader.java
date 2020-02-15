@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 public enum ImageLoader {
 	cage("Cage.png"),
 	tile("Floor.jpg"),
+	straw("Straw.png"),
 	ornamentRoughness("Ornament Roughness map.png"),
 	tileRoughness("Floor Roughness map.png");
 	

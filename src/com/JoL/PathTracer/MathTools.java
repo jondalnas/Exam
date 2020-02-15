@@ -23,10 +23,10 @@ public class MathTools {
 		return normal.mult(z).add(tangent.mult(x)).add(bitangent.mult(y));
 	}
 	
-	public static double fresnel(Vector3 in, Vector3 normal, double refractiveIndexOfRay, double refractiveIndexOfObject) {
+	public static double fresnel(Vector3 in, Vector3 normal, double refractiveIndexOfRay, double refractiveIndexOfObject, boolean entering) {
 		double theta = in.dot(normal);
 		
-		if (theta > 0) {
+		if (!entering) {
 			double ri = refractiveIndexOfRay;
 			refractiveIndexOfRay = refractiveIndexOfObject;
 			refractiveIndexOfObject = ri;
@@ -44,5 +44,9 @@ public class MathTools {
 
             return (rs * rs + rp * rp) / 2;
         }
+	}
+	
+	public static double fresnel(Vector3 in, Vector3 normal, double refractiveIndexOfRay, double refractiveIndexOfObject) {
+		return fresnel(in, normal, refractiveIndexOfRay, refractiveIndexOfObject, in.dot(normal) < 0);
 	}
 }

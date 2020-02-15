@@ -10,25 +10,28 @@ public class RefractiveMaterial extends Material {
 		this.indexOfRefraction = indexOfRefraction;
 	}
 	
-	public Vector3 refract(Vector3 in, Vector3 normal, double rayRefractiveIndex) {
-		double theta = in.dot(normal);
+	public Vector3 refract(Vector3 in, Vector3 normal, double rayRefractiveIndex, boolean entering) {
+		Vector3 n = new Vector3(normal.x, normal.y, normal.z);
+		
+		double theta = in.dot(n);
 		
 		double refractiveIndex = rayRefractiveIndex / indexOfRefraction;
 		
-		//If not inside object, then flip cosDir else flip normal and refractive index
+		if (!entering) refractiveIndex = 1.0 / refractiveIndex;
+		
+		//If not inside object, then flip cosDir else flip normal
 		if (theta < 0) {
 			theta = -theta;
 		}
 		else {
-			normal.multEqual(-1);
-			refractiveIndex = 1.0 / refractiveIndex;
+			n.multEqual(-1);
 		}
 		
 		//
 		double k = 1.0 - refractiveIndex * refractiveIndex * (1 - theta * theta);
 		
 		if (k < 0) return null;
-		else return in.mult(refractiveIndex).add(normal.mult(refractiveIndex * theta - Math.sqrt(k))).normalize();
+		else return in.mult(refractiveIndex).add(n.mult(refractiveIndex * theta - Math.sqrt(k))).normalize();
 	}
 	
 	public Vector3 BRDF(Vector3 dirIn, Vector3 dirOut, Vector3 normal, Vector3 hitPos, Vector3 inColor) {

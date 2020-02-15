@@ -13,7 +13,7 @@ public class Sample {
 
 	public static final double FOV = 60;
 	public static double aspect, yFOV;
-	public static final Camera cam = new Camera(new Vector3(0, 0, -2), new Vector3(0, 0, 0));
+	public static final Camera cam = new Camera(new Vector3(0, 2, -8), new Vector3(Math.toRadians(10), 0, 0));
 	
 	public static double[] sin, cos;
 	public static Hit[] firstHits;
@@ -95,6 +95,7 @@ public class Sample {
 		for (int y = 0; y < height; y++) {
 			if (y % 50 == 0) System.out.println(currentSampleCount + ", " + y);
 			for (int x = 0; x < width; x++) {
+				
 				//Make a clone of ray and hit so they don't get modefied
 				Ray ray = new Ray(rays[x + y * width]);
 				Hit hit = firstHits[x + y * width] == null ? null : new Hit(firstHits[x + y * width]);

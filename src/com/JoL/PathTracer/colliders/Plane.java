@@ -19,10 +19,10 @@ public class Plane extends Geometry {
 		Vector3 p0 = pos;
 		
 		double denom = n.dot(l);
-		if (Math.abs(denom) > 1e-6) {
+		if (Math.abs(denom) > 1e-9) {
 			Vector3 p0l0 = p0.minus(l0);
 			double dist = p0l0.dot(n)/denom;
-			if (dist < 1e-6) return null;
+			if (dist < 1e-9) return null;
 			Vector3 p = l.mult(dist).add(l0);
 			
 			return new Hit(p, dist, normal, mat);

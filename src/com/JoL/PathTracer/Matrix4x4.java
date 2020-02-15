@@ -44,7 +44,7 @@ public class Matrix4x4 {
 	}
 	
 	public static Matrix4x4 generateRotationMatrix(double xTheta, double yTheta, double zTheta) {
-		/*Matrix4x4 rx = new Matrix4x4();
+		Matrix4x4 rx = new Matrix4x4();
 		double xCos = Math.cos(xTheta);
 		double xSin = Math.sin(xTheta);
 		rx.m[1+1*4] = xCos;
@@ -68,11 +68,9 @@ public class Matrix4x4 {
 		rz.m[0+1*4] = zSin;
 		rz.m[1+1*4] = zCos;
 		
-		Matrix4x4 result = new Matrix4x4(rx).mult(ry).mult(rz);
+		Matrix4x4 result = new Matrix4x4(rz).mult(ry).mult(rx);
 
-		result.m[3+3*4] = 1;*/
-
-		Matrix4x4 result = new Matrix4x4();
+		/*Matrix4x4 result = new Matrix4x4();
 
 		double xCos = Math.cos(xTheta);
 		double xSin = Math.sin(xTheta);
@@ -91,7 +89,7 @@ public class Matrix4x4 {
 
 		result.m[0+2*4] = xCos*ySin*zCos + xSin * zSin;
 		result.m[1+2*4] = xCos*ySin*zSin - xSin * zCos;
-		result.m[2+2*4] = xCos * yCos;
+		result.m[2+2*4] = xCos * yCos;*/
 		
 		return result;
 	}
