@@ -12,7 +12,7 @@ public class Main implements Runnable {
 	public static int WIDTH = 640, HEIGHT = 480;
 	
 	public Screen screen;
-	
+
 	public Main() {
 	}
 	

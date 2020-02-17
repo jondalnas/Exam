@@ -1,5 +1,6 @@
 package com.JoL.PathTracer.render.materials;
 
+import com.JoL.PathTracer.Main;
 import com.JoL.PathTracer.MathTools;
 import com.JoL.PathTracer.Vector3;
 

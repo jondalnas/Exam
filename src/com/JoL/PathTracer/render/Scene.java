@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Stack;
 
+import com.JoL.PathTracer.Main;
 import com.JoL.PathTracer.MathTools;
 import com.JoL.PathTracer.Matrix4x4;
 import com.JoL.PathTracer.Vector3;
@@ -137,18 +138,31 @@ public class Scene {
 		double cosTheta = newDir.dot(closest.normal);
 		double pdf = 1.0 / (2.0 * Math.PI);
 		
+		double q = cosTheta;
+		
 		if (!(closest.mat instanceof RefractiveMaterial)) {
+			if (rand.nextDouble() > q) return closest.mat.emission;
+			
+			double loss = 1.0 / q;
+			
 			//L_e + (L_i * f_r * (w_i . n)) / pdf
 			//f_r = diffues / PI
-			return closest.mat.emission.add(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal, closest.pos, getColor(newRay, rand)).mult(cosTheta).mult(1.0/pdf));
+			return closest.mat.emission.add(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal, closest.pos, getColor(newRay, rand)).mult(cosTheta).mult(1.0/pdf).mult(loss));
 		} else {
 			double refractiveIndexOfRay = ray.getRefractiveIndex().getRefractiveIndex();
 			
 			boolean entering = ray.refractiveIndex.isEmpty() || !ray.refractiveIndex.peek().isSameGeometry(closest.mat.geometry.getIndex());
-			
+
 			Vector3 refractiveDir = ((RefractiveMaterial) closest.mat).refract(ray.dir, closest.normal, refractiveIndexOfRay, entering);
 			
-			Vector3 reflectColor = closest.mat.emission.add(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal, closest.pos, getColor(newRay, rand)).mult(cosTheta).mult(1.0/pdf));
+			Vector3 reflectColor;
+			if (rand.nextDouble() > q)
+				reflectColor = closest.mat.emission;
+			else {
+				double loss = 1.0 / q;
+				
+				reflectColor = closest.mat.emission.add(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal, closest.pos, getColor(newRay, rand)).mult(cosTheta).mult(1.0/pdf).mult(loss));
+			}
 			
 			if (refractiveDir != null) {
 				Ray refractRay = new Ray(closest.pos, refractiveDir);

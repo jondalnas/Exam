@@ -3,6 +3,7 @@ package com.JoL.PathTracer.render;
 import java.util.Random;
 
 import com.JoL.PathTracer.Camera;
+import com.JoL.PathTracer.Main;
 import com.JoL.PathTracer.Vector3;
 import com.JoL.PathTracer.colliders.Hit;
 import com.JoL.PathTracer.colliders.Ray;

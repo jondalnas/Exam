@@ -2,6 +2,7 @@ package com.JoL.PathTracer.colliders;
 
 import java.awt.image.BufferedImage;
 
+import com.JoL.PathTracer.Main;
 import com.JoL.PathTracer.Vector3;
 import com.JoL.PathTracer.objects.Object3D;
 import com.JoL.PathTracer.objects.loader.ImageLoader;

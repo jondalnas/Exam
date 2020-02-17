@@ -13,17 +13,12 @@ public class Plane extends Geometry {
 	}
 
 	public Hit collides(Ray ray) {
-		Vector3 l0 = ray.pos;
-		Vector3 l = ray.dir;
-		Vector3 n = normal;
-		Vector3 p0 = pos;
-		
-		double denom = n.dot(l);
+		double denom = normal.dot(ray.dir);
 		if (Math.abs(denom) > 1e-9) {
-			Vector3 p0l0 = p0.minus(l0);
-			double dist = p0l0.dot(n)/denom;
+			Vector3 p0l0 = pos.minus(ray.pos);
+			double dist = p0l0.dot(normal)/denom;
 			if (dist < 1e-9) return null;
-			Vector3 p = l.mult(dist).add(l0);
+			Vector3 p = ray.dir.mult(dist).add(ray.pos);
 			
 			return new Hit(p, dist, normal, mat);
 		}
