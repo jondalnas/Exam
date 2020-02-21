@@ -27,6 +27,8 @@ import com.JoL.PathTracer.render.materials.RefractiveMaterial;
 
 public class Scene {
 	private List<Geometry> scene = new ArrayList<Geometry>();
+
+	private static final Vector3 SKY = new Vector3(0.5294, 0.8078, 0.9216);
 	
 	public Scene() {
 		//Load scene
@@ -92,15 +94,14 @@ public class Scene {
 		/*addObject(new Plane(new Vector3(-3, 0, 0), new Vector3(1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0, 1, 0))));
 		addObject(new Plane(new Vector3(3, 0, 0), new Vector3(-1, 0, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 0, 0))));
 		//Top-bottom
-		Object3D plane = new Object3D(Loader.load("Plane.obj"), Matrix4x4.generateTransformationMatrix(new Vector3(0, -3, 5), new Vector3(5, 1, 5), new Vector3(0, 0, 0)));
-		addObject(plane, new CookTorranceMaterial(ImageLoader.tile.ordinal(), ImageLoader.tileRoughness.ordinal(), 2));
-		//addObject(new Plane(new Vector3(0, -3, 0), new Vector3(0, 1, 0), new CookTorranceMaterial(new Vector3(0.9, 0.9, 0.9), 0.1, 30)));//DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
+		addObject(new Plane(new Vector3(0, -3, 0), new Vector3(0, 1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		addObject(new Plane(new Vector3(0, 3, 0), new Vector3(0, -1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		//Front-back
 		addObject(new Plane(new Vector3(0, 0, 10), new Vector3(0, 0, -1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(1, 1, 1))));
 		addObject(new Plane(new Vector3(0, 0, -2), new Vector3(0, 0, 1), DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1))));*/
 		
-		addObject(new Sphere(new Vector3(-5, 5, -5), 2, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).multEqual(10))));
+		//Glass
+		/*addObject(new Sphere(new Vector3(-5, 5, -5), 2, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).multEqual(10))));
 		
 		Matrix4x4 glassMatrix = Matrix4x4.generateTransformationMatrix(new Vector3(0, 0, 0), new Vector3(1, 1, 1), new Vector3(0, 0, 0));
 		Object3D glass = new Object3D(Loader.load("Glass.obj"), glassMatrix);
@@ -111,10 +112,30 @@ public class Scene {
 		addObject(straw, new CookTorranceMaterial(ImageLoader.straw.ordinal(), 0.1, 1.5));
 
 		addObject(new Plane(new Vector3(0, -1, 0), new Vector3(0, 1, 0), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.9, 0.9, 0.9))));
-		addObject(new Plane(new Vector3(0, -1, 30), new Vector3(0, 0, -1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.9, 0.9, 0.9))));
+		addObject(new Plane(new Vector3(0, -1, 30), new Vector3(0, 0, -1), DiffuseMaterial.generateMaterialWithDiffuse(new Vector3(0.9, 0.9, 0.9))));*/
+		
+		//Scene
+		Matrix4x4 sceneMatrix = new Matrix4x4();
+		Object3D fork = new Object3D(Loader.load("Scene/Fork.obj"), sceneMatrix);
+		Object3D frame = new Object3D(Loader.load("Scene/Frame.obj"), sceneMatrix);
+		Object3D plane = new Object3D(Loader.load("Scene/Plane.obj"), sceneMatrix);
+		Object3D roundJar = new Object3D(Loader.load("Scene/Round Jar.obj"), sceneMatrix);
+		Object3D squareJar = new Object3D(Loader.load("Scene/Square Jar.obj"), sceneMatrix);
+		Object3D squareJar2 = new Object3D(Loader.load("Scene/Square Jar 2.obj"), sceneMatrix);
+		Object3D table = new Object3D(Loader.load("Scene/Table.obj"), sceneMatrix);
+		
+		addObject(fork, new CookTorranceMaterial(new Vector3(184.0/255.0, 115.0/255.0, 51.0/255.0), ImageLoader.forkRoughness.ordinal(), 3));
+		addObject(frame, new CookTorranceMaterial(new Vector3(1, 1, 1), 0.25, 5));
+		addObject(plane, new RefractiveMaterial(new Vector3(1, 1, 1), 1.517));
+		addObject(roundJar, new RefractiveMaterial(new Vector3(1, 1, 1), 1.517));
+		addObject(squareJar2, new RefractiveMaterial(new Vector3(1, 1, 1), 1.517));
+		addObject(squareJar, new RefractiveMaterial(new Vector3(1, 1, 1), 1.517));
+		addObject(table, new CookTorranceMaterial(ImageLoader.marble.ordinal(), 0.035, 1.486));
+		
+		addObject(new Sphere(new Vector3(-18.5, 13.5, -7.5), 10, DiffuseMaterial.generateMaterialWithEmission(new Vector3(1, 1, 1).multEqual(1))));
 	}
 	
-	public Vector3 getColor(Ray ray, Random rand, Hit... hit) {
+	public Vector3 getColor(Ray ray, Random rand, Hit... hit) {		
 		//Return background if ray has hit too many objects
 		if (ray.ittration > 5) return new Vector3(0, 0, 0);
 		
@@ -127,7 +148,7 @@ public class Scene {
 		}
 		
 		//Return background if ray doesn't hit anything
-		if (closest == null) return new Vector3(0, 0, 0);
+		if (closest == null) return ray.ittration == 0 ? SKY : new Vector3(0, 0, 0);
 		
 		//Generate new ray
 		Vector3 newDir = MathTools.generateHemisphereVector(closest.normal, rand);
@@ -138,15 +159,17 @@ public class Scene {
 		double cosTheta = newDir.dot(closest.normal);
 		double pdf = 1.0 / (2.0 * Math.PI);
 		
+		//Chance of ray getting destroyed
 		double q = cosTheta;
 		
 		if (!(closest.mat instanceof RefractiveMaterial)) {
+			//Russian rouletting, destroy rays that don't contribute as much as all the others
 			if (rand.nextDouble() > q) return closest.mat.emission;
 			
+			//Calculate how much light we lost due to this approximation and multiply the rendering equation with it
 			double loss = 1.0 / q;
 			
 			//L_e + (L_i * f_r * (w_i . n)) / pdf
-			//f_r = diffues / PI
 			return closest.mat.emission.add(closest.mat.BRDF(ray.dir.mult(-1), newDir, closest.normal, closest.pos, getColor(newRay, rand)).mult(cosTheta).mult(1.0/pdf).mult(loss));
 		} else {
 			double refractiveIndexOfRay = ray.getRefractiveIndex().getRefractiveIndex();

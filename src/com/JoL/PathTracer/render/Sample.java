@@ -14,7 +14,10 @@ public class Sample {
 
 	public static final double FOV = 60;
 	public static double aspect, yFOV;
-	public static final Camera cam = new Camera(new Vector3(0, 2, -8), new Vector3(Math.toRadians(10), 0, 0));
+	//Glass
+	//public static final Camera cam = new Camera(new Vector3(0, 0, -2), new Vector3(0, 0, 0));//new Camera(new Vector3(0, 2, -8), new Vector3(Math.toRadians(10), 0, 0));
+	//Scene (6.23491, -2.43238, 4.68455)
+	public static final Camera cam = new Camera(new Vector3(5, -2.43238, 3), new Vector3(Math.toRadians(-83.4592+90), Math.toRadians(65+180), 0));//Math.toRadians(83.4592), Math.toRadians(55.6176), 0));
 	
 	public static double[] sin, cos;
 	public static Hit[] firstHits;

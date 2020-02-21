@@ -15,7 +15,8 @@ public class Loader {
 		
 		try {
 			scan = new Scanner(Loader.class.getResource("/obj/"+file).openStream());
-		} catch (IOException e) {
+		} catch (Exception e) {
+			System.out.println("Couldn't load /obj/" + file);
 			throw new RuntimeException(e);
 		}
 		

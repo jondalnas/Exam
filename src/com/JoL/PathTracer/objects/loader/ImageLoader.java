@@ -10,6 +10,8 @@ public enum ImageLoader {
 	cage("Cage.png"),
 	tile("Floor.jpg"),
 	straw("Straw.png"),
+	marble("Marble.jpg"),
+	forkRoughness("Fork Roughness map.png"),
 	ornamentRoughness("Ornament Roughness map.png"),
 	tileRoughness("Floor Roughness map.png");
 	

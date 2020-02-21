@@ -19,7 +19,7 @@ public class Sphere extends Geometry {
 		Vector3 toSphere = pos.minus(ray.pos);
 		double cc = toSphere.dot(ray.dir);
 		double dist2 = toSphere.sqrtMag() - cc * cc;
-		if (dist2 > r2) return null;
+		if (dist2 >= r2) return null;
 		
 		double tDist = Math.sqrt(r2 - dist2);
 		double t0 = cc - tDist;

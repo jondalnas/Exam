@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class MathTools {
 	public static Vector3 generateHemisphereVector(Vector3 normal, Random rand) {
-		Vector3 tangent = Math.abs(normal.x) == 1 ? new Vector3(0, 0, 1) : new Vector3(0, normal.z, -normal.y);
-		Vector3 bitangent = Math.abs(normal.x) == 1 ? new Vector3(0, -1, 0) : new Vector3(-normal.y * normal.y - normal.z * normal.z, normal.x * normal.y, normal.x * normal.z).normalize();
+		Vector3 tangent = Math.abs(normal.x) >= 1-(1e-4) ? new Vector3(0, 0, 1) : new Vector3(0, normal.z, -normal.y);
+		Vector3 bitangent = Math.abs(normal.x) >= 1-(1e-4) ? new Vector3(0, -1, 0) : new Vector3(-normal.y * normal.y - normal.z * normal.z, normal.x * normal.y, normal.x * normal.z).normalize();
 
 		/*double r = Math.sqrt(rand.nextDouble());
 		double theta = rand.nextDouble() * Math.PI * 2.0;
