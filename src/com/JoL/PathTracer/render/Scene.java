@@ -188,18 +188,22 @@ public class Scene {
 			}
 			
 			if (refractiveDir != null) {
-				Ray refractRay = new Ray(closest.pos, refractiveDir);
-				refractRay.ittration = ray.ittration;
-				refractRay.refractiveIndex = (Stack<RefractiveIndexGeometry>) ray.refractiveIndex.clone();
-				
-				if (entering) refractRay.refractiveIndex.push(refractRay.new RefractiveIndexGeometry(((RefractiveMaterial) closest.mat).indexOfRefraction, closest.mat.geometry.getIndex()));
-				else refractRay.refractiveIndex.pop();
-				
-				Vector3 refractColor = getColor(refractRay, rand);
-				
 				double fr = MathTools.fresnel(ray.dir, closest.normal, refractiveIndexOfRay, ((RefractiveMaterial) closest.mat).indexOfRefraction, entering);
 				
-				return reflectColor.mult(fr).add(refractColor.mult(1 - fr));
+				if (rand.nextDouble() < 1 - fr) {
+					Ray refractRay = new Ray(closest.pos, refractiveDir);
+					refractRay.ittration = ray.ittration;
+					refractRay.refractiveIndex = (Stack<RefractiveIndexGeometry>) ray.refractiveIndex.clone();
+					
+					if (entering) refractRay.refractiveIndex.push(refractRay.new RefractiveIndexGeometry(((RefractiveMaterial) closest.mat).indexOfRefraction, closest.mat.geometry.getIndex()));
+					else refractRay.refractiveIndex.pop();
+					
+					Vector3 refractColor = getColor(refractRay, rand);
+					
+					return reflectColor.mult(fr).add(refractColor);
+				}
+				
+				return reflectColor.mult(fr);
 			}
 			
 			return reflectColor;
