@@ -62,22 +62,27 @@ public class Triangle extends Disk {
 		if (hit == null) return null;
 		
 		Vector3 c0 = hit.pos.minus(v0);
-		Vector3 c1 = hit.pos.minus(v1);
-		Vector3 c2 = hit.pos.minus(v2);
-
 		Vector3 ec0 = edge0.cross(c0);
-		Vector3 ec1 = edge1.cross(c1);
-		Vector3 ec2 = edge2.cross(c2);
 		
-		if (hit.normal.dot(ec0) >= 0 && 
-			hit.normal.dot(ec1) >= 0 &&
-			hit.normal.dot(ec2) >= 0)
-			return hit;
-		
-		if (hit.normal.dot(ec0) <= 0 && 
-			hit.normal.dot(ec1) <= 0 &&
-			hit.normal.dot(ec2) <= 0)
-			return hit;
+		if (hit.normal.dot(ec0) >= 0) {
+			Vector3 c1 = hit.pos.minus(v1);
+			Vector3 ec1 = edge1.cross(c1);
+			
+			if (hit.normal.dot(ec1) >= 0) {
+				Vector3 c2 = hit.pos.minus(v2);
+				Vector3 ec2 = edge2.cross(c2);
+				if (hit.normal.dot(ec2) >= 0) return hit;
+			}
+		} else if (hit.normal.dot(ec0) <= 0) {
+			Vector3 c1 = hit.pos.minus(v1);
+			Vector3 ec1 = edge1.cross(c1);
+			
+			if (hit.normal.dot(ec1) <= 0) {
+				Vector3 c2 = hit.pos.minus(v2);
+				Vector3 ec2 = edge2.cross(c2);
+				if (hit.normal.dot(ec2) <= 0) return hit;
+			}
+		}
 		
 		return null;
 	}

@@ -116,12 +116,13 @@ public class Scene {
 		
 		//Scene
 		Matrix4x4 sceneMatrix = new Matrix4x4();
+		Matrix4x4 nudgeMatrix = Matrix4x4.generateTranslationMatrix(0, 0.01, 0);
 		Object3D fork = new Object3D(Loader.load("Scene/Fork.obj"), sceneMatrix);
 		Object3D frame = new Object3D(Loader.load("Scene/Frame.obj"), sceneMatrix);
 		Object3D plane = new Object3D(Loader.load("Scene/Plane.obj"), sceneMatrix);
-		Object3D roundJar = new Object3D(Loader.load("Scene/Round Jar.obj"), sceneMatrix);
-		Object3D squareJar = new Object3D(Loader.load("Scene/Square Jar.obj"), sceneMatrix);
-		Object3D squareJar2 = new Object3D(Loader.load("Scene/Square Jar 2.obj"), sceneMatrix);
+		Object3D roundJar = new Object3D(Loader.load("Scene/Round Jar.obj"), nudgeMatrix);
+		Object3D squareJar = new Object3D(Loader.load("Scene/Square Jar.obj"), nudgeMatrix);
+		Object3D squareJar2 = new Object3D(Loader.load("Scene/Square Jar 2.obj"), nudgeMatrix);
 		Object3D table = new Object3D(Loader.load("Scene/Table.obj"), sceneMatrix);
 		
 		addObject(fork, new CookTorranceMaterial(new Vector3(184.0/255.0, 115.0/255.0, 51.0/255.0), ImageLoader.forkRoughness.ordinal(), 3));
